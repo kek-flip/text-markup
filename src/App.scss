@@ -1,0 +1,26 @@
+:root {
+    --font-family: Inter;
+
+    --white: #fdfbfb;
+    --black: #141617;
+    --blue: #0075f2;
+}
+
+* {
+    font-family: var(--font-family);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.main__header {
+    font-size: 48px;
+    color: var(--black);
+    margin-bottom: 10px;
+}
