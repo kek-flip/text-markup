@@ -1,0 +1,28 @@
+.chooser {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: clamp(50%, 50%, 50%);
+}
+
+.chooser__item {
+    & > input {
+        display: none;
+    }
+
+    &_active > .chooser__item__content {
+        color: var(--blue);
+    }
+}
+
+.chooser__item__content {
+    font-size: 28px;
+    color: var(--black);
+
+    &:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+    }
+}
