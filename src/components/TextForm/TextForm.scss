@@ -1,0 +1,36 @@
+.text-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 20px;
+
+    width: clamp(60%, 60%, 60%);
+}
+
+.text-form__textarea {
+    width: 100%;
+    min-height: 300px;
+    resize: none;
+
+    font-size: 18px;
+
+    border-radius: 13px;
+    padding: 10px 15px;
+}
+
+.text-form__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20%;
+
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 10px;
+    border: none;
+    border-radius: 13px;
+
+    font-size: 20px;
+}
