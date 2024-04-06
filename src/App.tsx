@@ -26,8 +26,11 @@ export default function App() {
 
     async function handleText(text: string) {
         try {
-            const response = await fetch("http://212.233.73.82/api/v1/markup", {
+            const response = await fetch("http://212.233.73.82:8000/api/v1/markup", {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({ text }),
             });
             const parsedResponse: ApiResponse<TextMarkup> =
