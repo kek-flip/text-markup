@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import Api from "./api/config";
 import Chooser from "./components/Chooser/Chooser";
 import TextForm from "./components/TextForm/TextForm";
 import MarkupView from "./components/MarkupView/MarkupView";
@@ -26,7 +27,7 @@ export default function App() {
 
     async function handleText(text: string) {
         try {
-            const response = await fetch("http://212.233.73.82:8000/api/v1/markup", {
+            const response = await fetch(Api.url + Api.routes.markup, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
