@@ -9,7 +9,7 @@ type TextSource = "text" | "file" | "link";
 
 interface TextMarkup {
     class: string;
-    tags: string | null;
+    tags: string[] | null;
 }
 interface ApiResponse<T = unknown> {
     data: T | null;
@@ -20,7 +20,7 @@ export default function App() {
     const textSourses: TextSource[] = ["text", "link", "file"];
 
     const [textSource, setTextSource] = useState<TextSource>("text");
-    const [tags, setTags] = useState<string>("");
+    const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const tagRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +32,7 @@ export default function App() {
             });
             const parsedResponse: ApiResponse<TextMarkup> =
                 await response.json();
-            setTags(parsedResponse.data?.tags || "");
+            setTags(parsedResponse.data?.tags || []);
             setError(parsedResponse.error);
             tagRef.current?.scrollIntoView({
                 behavior: "smooth",
