@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import Api from "./api/config";
 import Chooser from "./components/Chooser/Chooser";
 import TextForm from "./components/TextForm/TextForm";
 import MarkupView from "./components/MarkupView/MarkupView";
 
 import "./App.scss";
+import Api from "./api/api";
 
 type TextSource = "text" | "file" | "link";
 
@@ -27,13 +27,7 @@ export default function App() {
 
     async function handleText(text: string) {
         try {
-            const response = await fetch(Api.url + Api.routes.markup, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ text }),
-            });
+            const response = await Api.markup.Fetch(JSON.stringify({ text }));
             const parsedResponse: ApiResponse<TextMarkup> =
                 await response.json();
             setTags(parsedResponse.data?.tags || []);
