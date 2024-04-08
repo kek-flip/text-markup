@@ -5,11 +5,11 @@
 
     gap: 20px;
 
-    width: clamp(60%, 60%, 60%);
+    width: 100%;
 }
 
 .text-form__textarea {
-    width: 100%;
+    align-self: stretch;
     min-height: 300px;
     resize: none;
 

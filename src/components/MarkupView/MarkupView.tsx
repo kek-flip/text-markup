@@ -12,7 +12,13 @@ const MarkupView = forwardRef<HTMLDivElement, MarkupViewProps>(
         return (
             <div className="tags" ref={ref}>
                 <h3 className="tags__title">Tags</h3>
-                {!error && tags.map((tag) => <span>{tag}</span>)}
+                {!error && (
+                    <div className="tags__items">
+                        {tags.map((tag) => (
+                            <span className="tags__items__tag">{tag}</span>
+                        ))}
+                    </div>
+                )}
             </div>
         );
     }

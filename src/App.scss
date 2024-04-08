@@ -10,6 +10,15 @@
     font-family: var(--font-family);
 }
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0 25px;
+}
+
 .main {
     display: flex;
     flex-direction: column;
@@ -17,6 +26,8 @@
     align-items: center;
 
     gap: 20px;
+
+    width: clamp(60%, 60%, 60%);
 }
 
 .main__header {

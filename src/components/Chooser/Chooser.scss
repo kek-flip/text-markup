@@ -4,7 +4,9 @@
     justify-content: space-between;
     align-items: center;
 
-    width: clamp(50%, 50%, 50%);
+    align-self: stretch;
+
+    padding: 0 17.5px;
 }
 
 .chooser__item {

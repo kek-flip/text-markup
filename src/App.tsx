@@ -43,18 +43,20 @@ export default function App() {
     }
 
     return (
-        <main className="main">
-            <h1 className="main__header">Text markup</h1>
+        <div className="main-container">
+            <main className="main">
+                <h1 className="main__header">Text markup</h1>
 
-            <Chooser
-                options={textSourses}
-                startOption={textSource}
-                onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
-            />
+                <Chooser
+                    options={textSourses}
+                    startOption={textSource}
+                    onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
+                />
 
-            <TextForm submitText="Get markup" onText={handleText} />
+                <TextForm submitText="Get markup" onText={handleText} />
 
-            <MarkupView tags={tags} error={error} ref={tagRef} />
-        </main>
+                <MarkupView tags={tags} error={error} ref={tagRef} />
+            </main>
+        </div>
     );
 }
