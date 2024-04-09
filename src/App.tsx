@@ -5,26 +5,15 @@ import { useState } from "react";
 
 import "./App.scss";
 
-interface TextMarkup {
-    class: string;
-    tags: string[] | null;
-}
-interface ApiResponse<T = unknown> {
-    data: T | null;
-    error: string | null;
-}
-
 export default function App() {
     const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     async function handleText(text: string) {
         try {
-            const response = await Api.markup.Fetch(JSON.stringify({ text }));
-            const parsedResponse: ApiResponse<TextMarkup> =
-                await response.json();
-            setTags(parsedResponse.data?.tags || []);
-            setError(parsedResponse.error);
+            const response = await Api.markup.fetch(JSON.stringify({ text }));
+            setTags(response.data?.tags || []);
+            setError(response.error);
         } catch (e) {
             setError("Ошибка сервера");
             console.error(e);
