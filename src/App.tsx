@@ -1,41 +1,21 @@
-import { useRef, useState } from "react";
-import Chooser from "./components/Chooser/Chooser";
-import TextForm from "./components/TextForm/TextForm";
-import MarkupView from "./components/MarkupView/MarkupView";
+import Api from "./api/api";
+import MarkupViewer from "./components/MarkupViewer/MarkupViewer";
+import TextLoader from "./components/TextLoader/TextLoader";
+import { useState } from "react";
 
 import "./App.scss";
-import Api from "./api/api";
-
-type TextSource = "text" | "file" | "link";
-
-interface TextMarkup {
-    class: string;
-    tags: string[] | null;
-}
-interface ApiResponse<T = unknown> {
-    data: T | null;
-    error: string | null;
-}
 
 export default function App() {
-    const textSourses: TextSource[] = ["text", "link", "file"];
-
-    const [textSource, setTextSource] = useState<TextSource>("text");
     const [tags, setTags] = useState<string[]>([]);
+    const [labels, setLabels] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const tagRef = useRef<HTMLDivElement>(null);
 
     async function handleText(text: string) {
         try {
-            const response = await Api.markup.Fetch(JSON.stringify({ text }));
-            const parsedResponse: ApiResponse<TextMarkup> =
-                await response.json();
-            setTags(parsedResponse.data?.tags || []);
-            setError(parsedResponse.error);
-            tagRef.current?.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-            });
+            const response = await Api.markup.fetch(JSON.stringify({ text }));
+            setTags(response.data?.tags || []);
+            setLabels(response.data?.labels || []);
+            setError(response.error || null);
         } catch (e) {
             setError("Ошибка сервера");
             console.error(e);
@@ -43,18 +23,14 @@ export default function App() {
     }
 
     return (
-        <main className="main">
-            <h1 className="main__header">Text markup</h1>
-
-            <Chooser
-                options={textSourses}
-                startOption={textSource}
-                onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
-            />
-
-            <TextForm submitText="Get markup" onText={handleText} />
-
-            <MarkupView tags={tags} error={error} ref={tagRef} />
-        </main>
+        <div className="main-container">
+            <main className="main">
+                <h1 className="header">Text markup</h1>
+                <TextLoader onText={handleText} />
+                {(tags.length != 0 || labels.length != 0) && (
+                    <MarkupViewer tags={tags} labels={labels} />
+                )}
+            </main>
+        </div>
     );
 }

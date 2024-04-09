@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent } from "react";
 
 import "./TextForm.scss";
 
@@ -11,18 +11,16 @@ export default function TextForm({
     onText = () => {},
     submitText,
 }: TextFormProps) {
-    const formRef = useRef<HTMLFormElement>(null);
-
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const textArea = formRef.current?.elements.namedItem(
+        const textArea = e.currentTarget.elements.namedItem(
             "text"
         ) as HTMLTextAreaElement;
         onText(textArea.value);
     }
 
     return (
-        <form className="text-form" onSubmit={handleSubmit} ref={formRef}>
+        <form className="text-form" onSubmit={handleSubmit}>
             <textarea
                 className="text-form__textarea"
                 name="text"

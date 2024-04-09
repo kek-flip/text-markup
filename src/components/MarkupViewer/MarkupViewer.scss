@@ -1,0 +1,33 @@
+.item-viewer {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8.25px;
+
+    width: 100%;
+}
+
+.item-viewer__title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.item-viewer__items {
+    display: flex;
+    flex-direction: row;
+
+    gap: 5px;
+
+    width: 100%;
+}
+
+.markup-viewer {
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+    padding-bottom: 25px;
+    scroll-margin-bottom: 60px;
+
+    width: 100%;
+}
