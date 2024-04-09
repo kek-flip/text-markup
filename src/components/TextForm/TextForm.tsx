@@ -1,28 +1,28 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent } from "react";
 
 import "./TextForm.scss";
 
 export interface TextFormProps {
     onText?: (text: string) => void;
     submitText: string;
+    error: string | null;
 }
 
 export default function TextForm({
     onText = () => {},
     submitText,
+    error,
 }: TextFormProps) {
-    const formRef = useRef<HTMLFormElement>(null);
-
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const textArea = formRef.current?.elements.namedItem(
+        const textArea = e.currentTarget.elements.namedItem(
             "text"
         ) as HTMLTextAreaElement;
         onText(textArea.value);
     }
 
     return (
-        <form className="text-form" onSubmit={handleSubmit} ref={formRef}>
+        <form className="text-form" onSubmit={handleSubmit}>
             <textarea
                 className="text-form__textarea"
                 name="text"
@@ -31,6 +31,7 @@ export default function TextForm({
             <button className="text-form__submit" type="submit">
                 {submitText}
             </button>
+            <div className="text-form__error-msg">{error}</div>
         </form>
     );
 }

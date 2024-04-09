@@ -10,12 +10,12 @@ export enum HTTPMethod {
 const URL = import.meta.env.VITE_API_URL;
 
 interface TextMarkup {
-    class: string;
-    tags: string[] | null;
+    labels: string[];
+    tags: string[];
 }
 interface ApiResponse<T = unknown> {
-    data: T | null;
-    error: string | null;
+    data?: T;
+    error?: string;
 }
 
 class Route<T = unknown> {
