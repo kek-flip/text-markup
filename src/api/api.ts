@@ -13,10 +13,12 @@ interface TextMarkup {
     labels: string[];
     tags: string[];
 }
-interface ApiResponse<T = unknown> {
-    data?: T;
+
+interface ApiError {
     error?: string;
 }
+
+type ApiResponse<T = unknown> = T & ApiError;
 
 class Route<T = unknown> {
     private _method: HTTPMethod;

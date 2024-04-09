@@ -27,8 +27,8 @@ export default function TextLoader({
             const response = await Api.markupText.fetch(
                 JSON.stringify({ text })
             );
-            onTags(response.data?.tags || []);
-            onLabels(response.data?.labels || []);
+            onTags(response.tags || []);
+            onLabels(response.labels || []);
             onError(response.error || null);
         } catch (e) {
             onError("Ошибка сервера");
@@ -41,8 +41,8 @@ export default function TextLoader({
         formData.append("file", file);
         try {
             const response = await Api.markupFile.fetch(formData);
-            onTags(response.data?.tags || []);
-            onLabels(response.data?.labels || []);
+            onTags(response.tags || []);
+            onLabels(response.labels || []);
             onError(response.error || null);
         } catch (e) {
             onError("Ошибка сервера");
