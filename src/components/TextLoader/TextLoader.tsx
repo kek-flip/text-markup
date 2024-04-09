@@ -11,13 +11,13 @@ export type TextSource = "text" | "file" | "link";
 export interface TextLoaderProps {
     onTags: (tags: string[]) => void;
     onLabels: (labels: string[]) => void;
-    onError: (error: string | null) => void;
+    onError?: (error: string | null) => void;
 }
 
 export default function TextLoader({
     onTags,
     onLabels,
-    onError,
+    onError = () => {},
 }: TextLoaderProps) {
     const textSourses: TextSource[] = ["text", "file"];
     const [textSource, setTextSource] = useState<TextSource>("text");

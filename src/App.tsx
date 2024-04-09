@@ -1,4 +1,3 @@
-import Api from "./api/api";
 import MarkupViewer from "./components/MarkupViewer/MarkupViewer";
 import TextLoader from "./components/TextLoader/TextLoader";
 import { useState } from "react";
@@ -16,7 +15,6 @@ export default function App() {
                 <TextLoader
                     onTags={(tags) => setTags(tags)}
                     onLabels={(labels) => setLabels(labels)}
-                    onError={(error) => setError(error)}
                 />
                 {(tags.length != 0 || labels.length != 0) && (
                     <MarkupViewer tags={tags} labels={labels} />
