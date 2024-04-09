@@ -8,15 +8,6 @@ import Api from "./api/api";
 
 type TextSource = "text" | "file" | "link";
 
-interface TextMarkup {
-    class: string;
-    tags: string[] | null;
-}
-interface ApiResponse<T = unknown> {
-    data: T | null;
-    error: string | null;
-}
-
 export default function App() {
     const textSourses: TextSource[] = ["text", "link", "file"];
 
@@ -27,11 +18,9 @@ export default function App() {
 
     async function handleText(text: string) {
         try {
-            const response = await Api.markup.Fetch(JSON.stringify({ text }));
-            const parsedResponse: ApiResponse<TextMarkup> =
-                await response.json();
-            setTags(parsedResponse.data?.tags || []);
-            setError(parsedResponse.error);
+            const response = await Api.markup.fetch(JSON.stringify({ text }));
+            setTags(response.data?.tags || []);
+            setError(response.error);
             tagRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "nearest",

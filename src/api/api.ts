@@ -9,7 +9,16 @@ export enum HTTPMethod {
 
 const URL = import.meta.env.VITE_API_URL;
 
-class Route {
+interface TextMarkup {
+    class: string;
+    tags: string[] | null;
+}
+interface ApiResponse<T = unknown> {
+    data: T | null;
+    error: string | null;
+}
+
+class Route<T = unknown> {
     private _method: HTTPMethod;
     private _route: string;
     private _headers: HeadersInit;
@@ -27,18 +36,20 @@ class Route {
         this._options = options;
     }
 
-    async Fetch(body: string) {
-        return fetch(URL + this._route, {
+    async fetch(body: string): Promise<ApiResponse<T>> {
+        const res = await fetch(URL + this._route, {
             method: this._method,
             headers: this._headers,
             body,
             ...this._options,
         });
+
+        return res.json();
     }
 }
 
-const Api: { [index: string]: Route } = {
-    markup: new Route(HTTPMethod.POST, "/markup", {
+const Api = {
+    markup: new Route<TextMarkup>(HTTPMethod.POST, "/markup", {
         "Content-Type": "application/json",
     }),
 };
