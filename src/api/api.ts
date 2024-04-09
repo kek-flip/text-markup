@@ -36,7 +36,7 @@ class Route<T = unknown> {
         this._options = options;
     }
 
-    async fetch(body: string): Promise<ApiResponse<T>> {
+    async fetch(body: BodyInit): Promise<ApiResponse<T>> {
         const res = await fetch(URL + this._route, {
             method: this._method,
             headers: this._headers,
@@ -49,8 +49,11 @@ class Route<T = unknown> {
 }
 
 const Api = {
-    markup: new Route<TextMarkup>(HTTPMethod.POST, "/markup", {
+    markupText: new Route<TextMarkup>(HTTPMethod.POST, "/markup", {
         "Content-Type": "application/json",
+    }),
+    markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
+        "Content-Type": "multipart/form-data",
     }),
 };
 
