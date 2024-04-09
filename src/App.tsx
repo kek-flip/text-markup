@@ -9,21 +9,15 @@ export default function App() {
     const [tags, setTags] = useState<string[]>([]);
     const [labels, setLabels] = useState<string[]>([]);
 
-    async function handleText(text: string) {
-        try {
-            const response = await Api.markup.fetch(JSON.stringify({ text }));
-            setTags(response.data?.tags || []);
-            setLabels(response.data?.labels || []);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     return (
         <div className="main-container">
             <main className="main">
                 <h1 className="header">Text markup</h1>
-                <TextLoader onText={handleText} />
+                <TextLoader
+                    onTags={(tags) => setTags(tags)}
+                    onLabels={(labels) => setLabels(labels)}
+                    onError={(error) => setError(error)}
+                />
                 {(tags.length != 0 || labels.length != 0) && (
                     <MarkupViewer tags={tags} labels={labels} />
                 )}

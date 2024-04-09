@@ -1,0 +1,57 @@
+.file-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 20px;
+
+    width: 100%;
+}
+
+.file-form__file-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 70%;
+    height: 13.5em;
+
+    border: 1px solid var(--black);
+    border-radius: 13px;
+}
+
+.file-form__file-area__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    color: var(--black);
+    font-size: 18px;
+
+    cursor: pointer;
+
+    &:hover {
+        color: var(--blue);
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+}
+
+.file-form__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25%;
+
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 10px;
+    border: none;
+    border-radius: 13px;
+
+    font-size: 20px;
+}
