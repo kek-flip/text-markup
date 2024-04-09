@@ -8,7 +8,7 @@ jobs:
     environment: Production
     steps:
       - uses: actions/checkout@v4 
-      - run: npm ci
+      - run: npm install
       - run: npm run build
       - run: echo $VITE_API_URL
       - name: copy file via ssh password
