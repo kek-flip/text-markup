@@ -24,11 +24,12 @@ export default function App() {
 
     return (
         <div className="main-container">
-            <h1 className="header">Text markup</h1>
-
             <main className="main">
+                <h1 className="header">Text markup</h1>
                 <TextLoader onText={handleText} error={error} />
-                <MarkupViewer tags={tags} labels={labels} />
+                {(tags.length != 0 || labels.length != 0) && (
+                    <MarkupViewer tags={tags} labels={labels} />
+                )}
             </main>
         </div>
     );

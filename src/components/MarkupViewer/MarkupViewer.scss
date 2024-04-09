@@ -1,9 +1,8 @@
 .item-viewer {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
 
-    gap: 5px;
+    gap: 8.25px;
 
     width: 100%;
 }
@@ -27,6 +26,8 @@
     flex-direction: column;
 
     gap: 15px;
+    padding-bottom: 25px;
+    scroll-margin-bottom: 60px;
 
     width: 100%;
 }
