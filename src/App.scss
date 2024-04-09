@@ -20,12 +20,12 @@
 }
 
 .main {
-    display: grid;
-    grid-template-columns: 1.618fr 1fr;
+    display: flex;
+    flex-direction: column;
 
-    gap: 10%;
+    gap: 45px;
 
-    width: 100%;
+    width: 75%;
 }
 
 .header {

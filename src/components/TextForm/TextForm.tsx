@@ -31,7 +31,6 @@ export default function TextForm({
             <button className="text-form__submit" type="submit">
                 {submitText}
             </button>
-            <div className="text-form__error-msg">{error}</div>
         </form>
     );
 }
