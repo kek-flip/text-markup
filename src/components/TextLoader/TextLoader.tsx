@@ -8,10 +8,9 @@ export type TextSource = "text" | "file" | "link";
 
 export interface TextLoaderProps {
     onText?: (text: string) => void;
-    error: string | null;
 }
 
-export default function TextLoader({ onText, error }: TextLoaderProps) {
+export default function TextLoader({ onText }: TextLoaderProps) {
     const textSourses: TextSource[] = ["text", "link", "file"];
     const [textSource, setTextSource] = useState<TextSource>("text");
 
@@ -23,7 +22,7 @@ export default function TextLoader({ onText, error }: TextLoaderProps) {
                 onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
             />
 
-            <TextForm submitText="Get markup" onText={onText} error={error}/>
+            <TextForm submitText="Get markup" onText={onText} />
         </div>
     );
 }

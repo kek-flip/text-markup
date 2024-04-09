@@ -5,13 +5,11 @@ import "./TextForm.scss";
 export interface TextFormProps {
     onText?: (text: string) => void;
     submitText: string;
-    error: string | null;
 }
 
 export default function TextForm({
     onText = () => {},
     submitText,
-    error,
 }: TextFormProps) {
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();

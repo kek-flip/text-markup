@@ -26,7 +26,7 @@ export default function App() {
         <div className="main-container">
             <main className="main">
                 <h1 className="header">Text markup</h1>
-                <TextLoader onText={handleText} error={error} />
+                <TextLoader onText={handleText} />
                 {(tags.length != 0 || labels.length != 0) && (
                     <MarkupViewer tags={tags} labels={labels} />
                 )}
