@@ -1,31 +1,21 @@
 name: Deploy Workflow
 on:
-    workflow_dispatch:
-        environment:
-            description: "Environment to run deploy (no envs now)"
-            type: environment
-            required: false
+  workflow_dispatch:
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - run: npm ci
-            - run: npm run build
-            - name: copy file via ssh password
-              uses: appleboy/scp-action@v0.1.4
-              with:
-                  host: ${{ secrets.HOST }}
-                  username: ${{ secrets.USERNAME }}
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  source: "dist"
-                  target: "~/text-markup/frontend"
-            # - name: run project
-            #   uses: appleboy/ssh-action@master
-            #   with:
-            #       host: ${{ secrets.HOST }}
-            #       username: ${{ secrets.USERNAME }}
-            #       key: ${{ secrets.SSH_PRIVATE_KEY }}
-            #       script: |
-            #           cd ./text-markup
+  deploy:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - uses: actions/checkout@v4 
+      - run: npm ci
+      - run: npm run build
+      - run: echo $VITE_API_URL
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            source: "dist/index.html,dist/assets"
+            target: "./text-markup/frontend"
