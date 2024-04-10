@@ -15,6 +15,7 @@ export default function App() {
                 <TextLoader
                     onTags={(tags) => setTags(tags)}
                     onLabels={(labels) => setLabels(labels)}
+                    onError={(error) => alert(error)}
                 />
                 {(tags.length != 0 || labels.length != 0) && (
                     <MarkupViewer tags={tags} labels={labels} />
