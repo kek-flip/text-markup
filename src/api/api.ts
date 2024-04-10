@@ -23,13 +23,13 @@ type ApiResponse<T = unknown> = T & ApiError;
 class Route<T = unknown> {
     private _method: HTTPMethod;
     private _route: string;
-    private _headers: HeadersInit;
+    private _headers: HeadersInit | undefined;
     private _options: { [index: string]: string } | undefined;
 
     constructor(
         method: HTTPMethod,
         route: string,
-        headers: HeadersInit,
+        headers?: HeadersInit,
         options?: { [index: string]: string }
     ) {
         this._method = method;
@@ -54,9 +54,7 @@ const Api = {
     markupText: new Route<TextMarkup>(HTTPMethod.POST, "/markup", {
         "Content-Type": "application/json",
     }),
-    markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
-        "Content-Type": "multipart/form-data",
-    }),
+    markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file"),
 };
 
 export default Api;
