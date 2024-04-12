@@ -1,21 +1,22 @@
 name: Deploy Workflow
 on:
-  workflow_dispatch:
+    workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    environment: Production
-    steps:
-      - uses: actions/checkout@v4 
-      - run: npm install
-      - run: npm run build
-      - run: echo $VITE_API_URL
-      - name: copy file via ssh password
-        uses: appleboy/scp-action@v0.1.7
-        with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            source: "dist/index.html,dist/assets"
-            target: "./text-markup/frontend"
+    deploy:
+        runs-on: ubuntu-latest
+        environment: production
+        env:
+            VITE_API_URL: ${{ vars.VITE_API_URL }}
+        steps:
+            - uses: actions/checkout@v4
+            - name: build
+              run: npm ci && npm run build
+            - name: Copy bundle via ssh
+              uses: appleboy/scp-action@v0.1.7
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USERNAME }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  source: "dist/index.html,dist/assets"
+                  target: "./text-markup/frontend"

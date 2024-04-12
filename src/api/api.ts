@@ -7,7 +7,7 @@ export enum HTTPMethod {
     OPTIONS = "OPTIONS",
 }
 
-const URL = "https://cluster-text.ru/api/v1";
+const URL = import.meta.env.VITE_API_URL;
 
 interface TextMarkup {
     labels: string[];
