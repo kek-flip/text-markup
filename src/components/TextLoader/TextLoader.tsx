@@ -55,7 +55,12 @@ export default function TextLoader({
             <Chooser
                 options={textSourses}
                 startOption={textSource}
-                onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
+                onChoose={(textSrc) => {
+                    setTextSource(textSrc as TextSource);
+                    onTags([]);
+                    onLabels([]);
+                    onError(null);
+                }}
             />
             {textSource == "text" && (
                 <TextForm submitText="Get markup" onText={handleText} />
