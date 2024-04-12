@@ -1,0 +1,17 @@
+name: Integration Workflow
+on:
+    pull_request:
+        branches: main
+    push:
+        branches: main
+
+jobs:
+    linter:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - run: npm ci
+            - name: linter
+              run: npm run lint
+            - name: Type Check
+              run: npx tsc
