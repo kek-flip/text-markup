@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Api from "../../api/api";
+import Api, { RequestError } from "../../api/api";
 import Chooser from "../Chooser/Chooser";
 import TextForm from "../TextForm/TextForm";
 
@@ -27,12 +27,14 @@ export default function TextLoader({
             const response = await Api.markupText.fetch(
                 JSON.stringify({ text })
             );
-            onTags(response.tags || []);
-            onLabels(response.labels || []);
-            onError(response.error || null);
+            onTags(response.tags);
+            onLabels(response.labels);
         } catch (e) {
-            onError("Ошибка сервера");
-            console.error(e);
+            if (e instanceof RequestError) {
+                onError(e.message);
+            } else {
+                throw e;
+            }
         }
     }
 
@@ -41,12 +43,14 @@ export default function TextLoader({
         formData.append("file", file);
         try {
             const response = await Api.markupFile.fetch(formData);
-            onTags(response.tags || []);
-            onLabels(response.labels || []);
-            onError(response.error || null);
+            onTags(response.tags);
+            onLabels(response.labels);
         } catch (e) {
-            onError("Ошибка сервера");
-            console.log(e);
+            if (e instanceof RequestError) {
+                onError(e.message);
+            } else {
+                throw e;
+            }
         }
     }
 
