@@ -79,6 +79,7 @@ class Route<T = unknown> {
 interface TextMarkup {
     labels: string[];
     tags: string[];
+    textClass: string;
 }
 
 const Api = {
