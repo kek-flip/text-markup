@@ -38,6 +38,7 @@ export default function TextLoader({
             onLabels(response.labels);
             onTextClass(response.class);
             onFinish();
+            onError();
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
@@ -61,6 +62,7 @@ export default function TextLoader({
             onTags(response.tags);
             onLabels(response.labels);
             onFinish();
+            onError();
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
