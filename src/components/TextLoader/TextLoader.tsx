@@ -36,7 +36,7 @@ export default function TextLoader({
             onText(text);
             onTags(response.tags);
             onLabels(response.labels);
-            onTextClass(response.textClass);
+            onTextClass(response.class);
             onFinish();
         } catch (e) {
             if (e instanceof RequestError) {
@@ -57,6 +57,7 @@ export default function TextLoader({
             reader.onload = () => {
                 onText(reader.result as string);
             };
+            onTextClass(response.class);
             onTags(response.tags);
             onLabels(response.labels);
             onFinish();
