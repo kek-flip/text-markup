@@ -17,11 +17,17 @@ function ItemsViewer({ tags, labels }: ItemsViewerProps) {
         <div className="item-viewer">
             <h3 className="item-viewer__title">Markup</h3>
             <table className="item-viewer__markup-table">
-                <tbody>
+                <thead className="item-viewer__markup-table__head">
+                    <tr>
+                        <th className="item-viewer__markup-table__head__item">Tags</th>
+                        <th className="item-viewer__markup-table__head__item">Labels</th>
+                    </tr>
+                </thead>
+                <tbody className="item-viewer__markup-table__body">
                     {items.map(({ tag, label }) => (
                         <tr key={tag + label}>
-                            <td>{tag}</td>
-                            <td>{label}</td>
+                            <td className="item-viewer__markup-table__body__item">{tag}</td>
+                            <td className="item-viewer__markup-table__body__item">{label}</td>
                         </tr>
                     ))}
                 </tbody>

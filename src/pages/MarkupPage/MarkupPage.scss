@@ -5,6 +5,24 @@
     gap: 15px;
 
     width: 100%;
+
+    padding-top: clamp(0px, 5vh, 85px);
+}
+
+.markup-page__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 10px;
+    border: none;
+    border-radius: 13px;
+
+    font-size: 18px;
 }
 
 .markup-page__content {
@@ -14,4 +32,6 @@
     gap: 95px;
 
     width: 100%;
+    min-height: 290px;
+    height: 50vh;
 }

@@ -27,7 +27,7 @@ export default function MarkupPage({
                     type="button"
                     onClick={() => onBack()}
                 >
-                    Распознать текст
+                    Markup new text
                 </button>
                 <div className="markup-page__content">
                     <TextViewer text={text} />

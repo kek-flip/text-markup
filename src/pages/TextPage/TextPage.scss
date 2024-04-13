@@ -4,4 +4,6 @@
     align-items: center;
 
     width: 75%;
+
+    padding-top: clamp(60px, 10vh, 100px);
 }
