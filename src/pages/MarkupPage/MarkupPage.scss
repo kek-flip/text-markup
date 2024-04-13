@@ -1,0 +1,17 @@
+.markup-page {
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+
+    width: 100%;
+}
+
+.markup-page__content {
+    display: grid;
+    grid-template-columns: 1.61fr 1fr;
+
+    gap: 95px;
+
+    width: 100%;
+}

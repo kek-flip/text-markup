@@ -1,30 +1,41 @@
-import MarkupViewer from "./components/MarkupViewer/MarkupViewer";
-import TextLoader from "./components/TextLoader/TextLoader";
+import TextPage from "./pages/TextPage/TextPage";
 import { useState } from "react";
 
 import "./App.scss";
+import MarkupPage from "./pages/MarkupPage/MarkupPage";
+import Notifier from "./components/Notifier/Notifier";
 
 export default function App() {
+    const [text, setText] = useState<string>();
     const [tags, setTags] = useState<string[]>([]);
     const [labels, setLabels] = useState<string[]>([]);
+    const [textClass, setTextClass] = useState<string>();
+    const [error, setError] = useState<string>();
+
+    const [page, setPage] = useState<string>("text-page");
 
     return (
-        <div className="main-container">
-            <main className="main">
-                <h1 className="header">Text markup</h1>
-                <TextLoader
+        <>
+            <Notifier error={error} />
+            {page == "text-page" && (
+                <TextPage
+                    onText={(text) => setText(text)}
                     onTags={(tags) => setTags(tags)}
                     onLabels={(labels) => setLabels(labels)}
-                    onError={(error) => {
-                        if (error) {
-                            alert(error);
-                        }
-                    }}
+                    onTextClass={(textClass) => setTextClass(textClass)}
+                    onError={(error) => setError(error)}
+                    onFinish={() => setPage("markup-page")}
                 />
-                {(tags.length != 0 || labels.length != 0) && (
-                    <MarkupViewer tags={tags} labels={labels} />
-                )}
-            </main>
-        </div>
+            )}
+            {page == "markup-page" && (
+                <MarkupPage
+                    text={text ?? ""}
+                    tags={tags}
+                    labels={labels}
+                    textClass={textClass ?? ""}
+                    onBack={() => setPage("text-page")}
+                />
+            )}
+        </>
     );
 }
