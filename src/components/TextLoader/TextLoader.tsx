@@ -9,15 +9,21 @@ import FileForm from "../FileForm/FileForm";
 export type TextSource = "text" | "file" | "link";
 
 export interface TextLoaderProps {
+    onText: (text: string) => void;
     onTags: (tags: string[]) => void;
     onLabels: (labels: string[]) => void;
-    onError: (error: string | null) => void;
+    onTextClass: (textClass: string) => void;
+    onError: (error?: string) => void;
+    onFinish: () => void;
 }
 
 export default function TextLoader({
+    onText,
     onTags,
     onLabels,
+    onTextClass,
     onError,
+    onFinish,
 }: TextLoaderProps) {
     const textSourses: TextSource[] = ["text", "file"];
     const [textSource, setTextSource] = useState<TextSource>("text");
@@ -27,8 +33,11 @@ export default function TextLoader({
             const response = await Api.markupText.fetch(
                 JSON.stringify({ text })
             );
+            onText(text);
             onTags(response.tags);
             onLabels(response.labels);
+            onTextClass(response.textClass);
+            onFinish();
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
@@ -43,8 +52,14 @@ export default function TextLoader({
         formData.append("file", file);
         try {
             const response = await Api.markupFile.fetch(formData);
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                onText(reader.result as string);
+            };
             onTags(response.tags);
             onLabels(response.labels);
+            onFinish();
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
@@ -63,7 +78,7 @@ export default function TextLoader({
                     setTextSource(textSrc as TextSource);
                     onTags([]);
                     onLabels([]);
-                    onError(null);
+                    onError();
                 }}
             />
             {textSource == "text" && (
