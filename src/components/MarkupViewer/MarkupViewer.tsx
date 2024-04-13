@@ -27,7 +27,7 @@ function ItemsViewer({ tags, labels }: ItemsViewerProps) {
                     {items.map(({ tag, label }) => (
                         <tr key={tag + label}>
                             <td className="item-viewer__markup-table__body__item">{tag}</td>
-                            <td className="item-viewer__markup-table__body__item">{label}</td>
+                            <td className="item-viewer__markup-table__body__item item-viewer__markup-table__body__item_label">{label}</td>
                         </tr>
                     ))}
                 </tbody>

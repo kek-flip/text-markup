@@ -53,6 +53,9 @@
 }
 
 .item-viewer__markup-table__body__item {
-    font-family: var(--font-markup);
     font-size: 20px;
+}
+
+.item-viewer__markup-table__body__item_label {
+    font-family: var(--font-markup);
 }
