@@ -19,15 +19,26 @@ function ItemsViewer({ tags, labels }: ItemsViewerProps) {
             <table className="item-viewer__markup-table">
                 <thead className="item-viewer__markup-table__head">
                     <tr>
-                        <th className="item-viewer__markup-table__head__item">Tags</th>
-                        <th className="item-viewer__markup-table__head__item">Labels</th>
+                        <th className="item-viewer__markup-table__head__item">
+                            Tags
+                        </th>
+                        <th className="item-viewer__markup-table__head__item">
+                            Labels
+                        </th>
                     </tr>
                 </thead>
                 <tbody className="item-viewer__markup-table__body">
                     {items.map(({ tag, label }) => (
-                        <tr className="item-viewer__markup-table__body__row" key={tag + label}>
-                            <td className="item-viewer__markup-table__body__item">{tag}</td>
-                            <td className="item-viewer__markup-table__body__item item-viewer__markup-table__body__item_label">{label}</td>
+                        <tr
+                            className="item-viewer__markup-table__body__row"
+                            key={tag + label}
+                        >
+                            <td className="item-viewer__markup-table__body__item">
+                                {tag}
+                            </td>
+                            <td className="item-viewer__markup-table__body__item item-viewer__markup-table__body__item_label">
+                                {label}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -37,9 +48,9 @@ function ItemsViewer({ tags, labels }: ItemsViewerProps) {
 }
 
 export interface MarkupViewerProps {
-    tags?: string[];
-    labels?: string[];
-    textClass?: string;
+    tags: string[];
+    labels: string[];
+    textClass: string;
 }
 
 export default function MarkupViewer({

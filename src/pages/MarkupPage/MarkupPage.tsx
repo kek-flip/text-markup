@@ -1,24 +1,17 @@
 import MarkupViewer from "../../components/MarkupViewer/MarkupViewer";
 import TextViewer from "../../components/TextViewer/TextViewer";
+import { useMarkup } from "../../contexts/MarkupProvider/MarkupProvider";
 import Page from "../Page/Page";
 
 import "./MarkupPage.scss";
 
 export interface MarkupPageProps {
-    text: string;
-    tags: string[];
-    labels: string[];
-    textClass: string;
     onBack: () => void;
 }
 
-export default function MarkupPage({
-    text,
-    tags,
-    labels,
-    textClass,
-    onBack,
-}: MarkupPageProps) {
+export default function MarkupPage({ onBack }: MarkupPageProps) {
+    const markup = useMarkup();
+
     return (
         <Page>
             <main className="markup-page">
@@ -30,11 +23,11 @@ export default function MarkupPage({
                     Markup new text
                 </button>
                 <div className="markup-page__content">
-                    <TextViewer text={text} />
+                    <TextViewer text={markup.text!} />
                     <MarkupViewer
-                        tags={tags}
-                        labels={labels}
-                        textClass={textClass}
+                        tags={markup.tags}
+                        labels={markup.labels}
+                        textClass={markup.textClass!}
                     />
                 </div>
             </main>

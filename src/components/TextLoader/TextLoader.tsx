@@ -9,19 +9,19 @@ import FileForm from "../FileForm/FileForm";
 export type TextSource = "text" | "file" | "link";
 
 export interface TextLoaderProps {
-    onText: (text: string) => void;
-    onTags: (tags: string[]) => void;
-    onLabels: (labels: string[]) => void;
-    onTextClass: (textClass: string) => void;
-    onError: (error?: string) => void;
+    onText: (text: string | null) => void;
+    onTextMarkup: (textMarkup: {
+        textClass: string;
+        tags: string[];
+        labels: string[];
+    }) => void;
+    onError: (error: string | null) => void;
     onFinish: () => void;
 }
 
 export default function TextLoader({
     onText,
-    onTags,
-    onLabels,
-    onTextClass,
+    onTextMarkup,
     onError,
     onFinish,
 }: TextLoaderProps) {
@@ -29,16 +29,17 @@ export default function TextLoader({
     const [textSource, setTextSource] = useState<TextSource>("text");
 
     async function handleText(text: string) {
+        onText(text);
         try {
             const response = await Api.markupText.fetch(
                 JSON.stringify({ text })
             );
-            onText(text);
-            onTags(response.tags);
-            onLabels(response.labels);
-            onTextClass(response.class);
+            onTextMarkup({
+                textClass: response.class,
+                tags: response.tags,
+                labels: response.labels,
+            });
             onFinish();
-            onError();
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
@@ -49,20 +50,22 @@ export default function TextLoader({
     }
 
     async function handleFile(file: File) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {
+            onText(reader.result as string);
+        };
+
         const formData = new FormData();
         formData.append("file", file);
         try {
             const response = await Api.markupFile.fetch(formData);
-            const reader = new FileReader();
-            reader.readAsText(file);
-            reader.onload = () => {
-                onText(reader.result as string);
-            };
-            onTextClass(response.class);
-            onTags(response.tags);
-            onLabels(response.labels);
+            onTextMarkup({
+                textClass: response.class,
+                tags: response.tags,
+                labels: response.labels,
+            });
             onFinish();
-            onError();
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
@@ -79,9 +82,7 @@ export default function TextLoader({
                 startOption={textSource}
                 onChoose={(textSrc) => {
                     setTextSource(textSrc as TextSource);
-                    onTags([]);
-                    onLabels([]);
-                    onError();
+                    onText(null);
                 }}
             />
             {textSource == "text" && (

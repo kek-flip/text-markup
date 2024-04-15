@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import "./Page.scss";
 
 export interface PageProps {
-    children: JSX.Element;
+    children: ReactNode;
 }
 
 export default function Page({ children }: PageProps) {
