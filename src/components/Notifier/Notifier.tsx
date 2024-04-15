@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useMarkup } from "../../contexts/MarkupProvider/MarkupProvider";
+import { useMarkup } from "../../contexts/MarkupProvider/MarkupHooks";
 
 export default function Notifier() {
     const markup = useMarkup();

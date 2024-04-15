@@ -1,5 +1,5 @@
 import TextLoader from "../../components/TextLoader/TextLoader";
-import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupProvider";
+import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
 
 import "./TextPage.scss";

@@ -1,10 +1,4 @@
-import {
-    Dispatch,
-    ReactNode,
-    createContext,
-    useContext,
-    useReducer,
-} from "react";
+import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
 interface Markup {
     text: string | null;
@@ -58,10 +52,9 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
     }
 }
 
-const MarkupContext = createContext<Markup | null>(null);
-const MarkupDispatchContext = createContext<Dispatch<MarkupAction> | null>(
-    null
-);
+export const MarkupContext = createContext<Markup | null>(null);
+export const MarkupDispatchContext =
+    createContext<Dispatch<MarkupAction> | null>(null);
 
 interface MarkupProviderProps {
     children: ReactNode;
@@ -83,12 +76,4 @@ export default function MarkupProvider({ children }: MarkupProviderProps) {
             </MarkupDispatchContext.Provider>
         </MarkupContext.Provider>
     );
-}
-
-export function useMarkup() {
-    return useContext(MarkupContext)!;
-}
-
-export function useMarkupDispatch() {
-    return useContext(MarkupDispatchContext)!;
 }

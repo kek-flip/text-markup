@@ -1,6 +1,6 @@
 import MarkupViewer from "../../components/MarkupViewer/MarkupViewer";
 import TextViewer from "../../components/TextViewer/TextViewer";
-import { useMarkup } from "../../contexts/MarkupProvider/MarkupProvider";
+import { useMarkup } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
 
 import "./MarkupPage.scss";
