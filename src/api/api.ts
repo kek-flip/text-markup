@@ -53,22 +53,24 @@ class Route<T = unknown> {
     }
 
     async fetch(body: BodyInit): Promise<T> {
-        const res = await fetch(URL + this._route, {
-            method: this._method,
-            headers: this._headers,
-            body,
-            ...this._options,
-        });
-
+        let res;
         try {
+            res = await fetch(URL + this._route, {
+                method: this._method,
+                headers: this._headers,
+                body,
+                ...this._options,
+            });
             const payload = (await res.json()) as ApiResponse<T>;
             if (payload.error) {
                 throw new RequestError(payload.error);
             }
             return payload;
-        } catch {
-            if (this._failureCodesMapper[res.status]) {
+        } catch (e) {
+            if (res && this._failureCodesMapper[res.status]) {
                 throw new RequestError(this._failureCodesMapper[res.status]);
+            } else if (e instanceof TypeError) {
+                throw new RequestError("Отсутствует подключение к интернету");
             } else {
                 throw new RequestError("Неизвестная ошибка сервера");
             }
