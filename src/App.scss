@@ -1,5 +1,6 @@
 :root {
     --font-family: Inter;
+    --font-markup: Inconsolata;
 
     --white: #fdfbfb;
     --black: #141617;
@@ -9,32 +10,4 @@
 
 * {
     font-family: var(--font-family);
-}
-
-.main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    padding: 35px;
-}
-
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    gap: 95px;
-
-    width: 75%;
-}
-
-.header {
-    font-size: 48px;
-    color: var(--black);
-    margin: 0;
-
-    position: sticky;
-    top: 35px;
 }

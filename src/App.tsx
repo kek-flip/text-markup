@@ -1,30 +1,25 @@
-import MarkupViewer from "./components/MarkupViewer/MarkupViewer";
-import TextLoader from "./components/TextLoader/TextLoader";
-import { useState } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import TextPage from "./pages/TextPage/TextPage";
+import MarkupPage from "./pages/MarkupPage/MarkupPage";
+import MarkupProvider from "./contexts/MarkupProvider/MarkupProvider";
 
 import "./App.scss";
 
-export default function App() {
-    const [tags, setTags] = useState<string[]>([]);
-    const [labels, setLabels] = useState<string[]>([]);
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <TextPage />,
+    },
+    {
+        path: "/markup",
+        element: <MarkupPage />,
+    }
+]);
 
+export default function App() {
     return (
-        <div className="main-container">
-            <main className="main">
-                <h1 className="header">Text markup</h1>
-                <TextLoader
-                    onTags={(tags) => setTags(tags)}
-                    onLabels={(labels) => setLabels(labels)}
-                    onError={(error) => {
-                        if (error) {
-                            alert(error);
-                        }
-                    }}
-                />
-                {(tags.length != 0 || labels.length != 0) && (
-                    <MarkupViewer tags={tags} labels={labels} />
-                )}
-            </main>
-        </div>
+        <MarkupProvider>
+            <RouterProvider router={router} />
+        </MarkupProvider>
     );
 }

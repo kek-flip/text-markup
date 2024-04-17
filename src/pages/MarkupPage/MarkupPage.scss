@@ -1,0 +1,38 @@
+.markup-page {
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+
+    width: 100%;
+
+    padding-top: clamp(0px, 5vh, 85px);
+}
+
+.markup-page__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 10px;
+    border: none;
+    border-radius: 13px;
+    text-decoration: none;
+
+    font-size: 18px;
+}
+
+.markup-page__content {
+    display: grid;
+    grid-template-columns: 1.61fr 1fr;
+
+    gap: 95px;
+
+    width: 100%;
+    min-height: 290px;
+    height: 50vh;
+}

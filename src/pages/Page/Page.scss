@@ -1,0 +1,14 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 35px;
+}
+
+.header {
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--black);
+}
