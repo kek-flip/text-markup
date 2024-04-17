@@ -68,7 +68,6 @@ class Route<T = unknown> {
 
             // Выкидывается единица, чтобы попасть в catch и пройти по ветвлению
             if (res.status in this._failureCodesMapper) throw 1;
-            console.log(this._failureCodesMapper);
 
             return (await res.json()) as ApiResponse<T>;
         } catch (e) {

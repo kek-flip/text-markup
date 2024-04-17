@@ -5,6 +5,7 @@ import TextForm from "../TextForm/TextForm";
 
 import "./TextLoader.scss";
 import FileForm from "../FileForm/FileForm";
+import { useNavigate } from "react-router-dom";
 
 export type TextSource = "text" | "file" | "link";
 
@@ -16,17 +17,16 @@ export interface TextLoaderProps {
         labels: string[];
     }) => void;
     onError: (error: string | null) => void;
-    onFinish: () => void;
 }
 
 export default function TextLoader({
     onText,
     onTextMarkup,
     onError,
-    onFinish,
 }: TextLoaderProps) {
     const textSourses: TextSource[] = ["text", "file"];
     const [textSource, setTextSource] = useState<TextSource>("text");
+    const navigate = useNavigate();
 
     async function handleText(text: string) {
         onText(text);
@@ -39,7 +39,7 @@ export default function TextLoader({
                 tags: response.tags,
                 labels: response.labels,
             });
-            onFinish();
+            navigate("/markup");
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);
@@ -65,7 +65,7 @@ export default function TextLoader({
                 tags: response.tags,
                 labels: response.labels,
             });
-            onFinish();
+            navigate("/markup");
         } catch (e) {
             if (e instanceof RequestError) {
                 onError(e.message);

@@ -1,18 +1,16 @@
+import Notifier from "../../components/Notifier/Notifier";
 import TextLoader from "../../components/TextLoader/TextLoader";
 import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
 
 import "./TextPage.scss";
 
-export interface TextPageProps {
-    onFinish: () => void;
-}
-
-export default function TextPage({ onFinish }: TextPageProps) {
+export default function TextPage() {
     const markupDispatch = useMarkupDispatch();
 
     return (
         <Page>
+            <Notifier />
             <main className="text-page">
                 <TextLoader
                     onText={(text) =>
@@ -27,7 +25,6 @@ export default function TextPage({ onFinish }: TextPageProps) {
                     onError={(error) =>
                         markupDispatch({ type: "ERROR", payload: error })
                     }
-                    onFinish={onFinish}
                 />
             </main>
         </Page>
