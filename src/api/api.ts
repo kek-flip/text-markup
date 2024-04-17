@@ -24,6 +24,12 @@ interface StatusCodeMapper {
     [index: number]: string;
 }
 
+interface RouteOptions {
+    headers?: HeadersInit;
+    failureCodesMapper?: StatusCodeMapper;
+    fetchOptions?: RequestInit;
+}
+
 const DEFAULT_FAILURE_CODES_MAPPER: StatusCodeMapper = {
     404: "Ресурс не найден",
     500: "Ошибка сервера",
@@ -35,21 +41,19 @@ class Route<T = unknown> {
     private _method: HTTPMethod;
     private _route: string;
     private _headers: HeadersInit | undefined;
-    private _options: { [index: string]: string } | undefined;
+    private _fetchOptions: RequestInit | undefined;
     private _failureCodesMapper: StatusCodeMapper;
 
-    constructor(
-        method: HTTPMethod,
-        route: string,
-        headers?: HeadersInit,
-        options?: { [index: string]: string },
-        failureCodesMapper = DEFAULT_FAILURE_CODES_MAPPER
-    ) {
+    constructor(method: HTTPMethod, route: string, options?: RouteOptions) {
         this._method = method;
         this._route = route;
-        this._headers = headers;
-        this._options = options;
-        this._failureCodesMapper = failureCodesMapper;
+        this._headers = options?.headers;
+        this._fetchOptions = options?.fetchOptions;
+        this._failureCodesMapper = Object.assign(
+            {},
+            DEFAULT_FAILURE_CODES_MAPPER,
+            options?.failureCodesMapper
+        );
     }
 
     async fetch(body: BodyInit): Promise<T> {
@@ -59,15 +63,16 @@ class Route<T = unknown> {
                 method: this._method,
                 headers: this._headers,
                 body,
-                ...this._options,
+                ...this._fetchOptions,
             });
-            const payload = (await res.json()) as ApiResponse<T>;
-            if (payload.error) {
-                throw new RequestError(payload.error);
-            }
-            return payload;
+
+            // Выкидывается единица, чтобы попасть в catch и пройти по ветвлению
+            if (res.status in this._failureCodesMapper) throw 1;
+            console.log(this._failureCodesMapper);
+
+            return (await res.json()) as ApiResponse<T>;
         } catch (e) {
-            if (res && this._failureCodesMapper[res.status]) {
+            if (res && res.status in this._failureCodesMapper) {
                 throw new RequestError(this._failureCodesMapper[res.status]);
             } else if (e instanceof TypeError) {
                 throw new RequestError("Отсутствует подключение к интернету");
@@ -86,9 +91,18 @@ interface TextMarkup {
 
 const Api = {
     markupText: new Route<TextMarkup>(HTTPMethod.POST, "/markup", {
-        "Content-Type": "application/json",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        failureCodesMapper: {
+            204: "Не удалость найти теги в тексте",
+        },
     }),
-    markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file"),
+    markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
+        failureCodesMapper: {
+            204: "Не удалость найти теги в тексте",
+        },
+    }),
 };
 
 export default Api;
