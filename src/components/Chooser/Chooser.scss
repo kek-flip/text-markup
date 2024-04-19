@@ -5,8 +5,6 @@
     align-items: center;
 
     width: 55%;
-
-    padding: 0 17.5px;
 }
 
 .chooser__item {
@@ -20,7 +18,7 @@
 }
 
 .chooser__item__content {
-    font-size: 28px;
+    font-size: 1.8rem;
     color: var(--black);
 
     &:hover {
