@@ -31,8 +31,8 @@ interface RouteOptions {
 }
 
 const DEFAULT_FAILURE_CODES_MAPPER: StatusCodeMapper = {
-    404: "Ресурс не найден",
-    500: "Ошибка сервера",
+    404: "Not found",
+    500: "Internal server error",
 };
 
 const URL = import.meta.env.VITE_API_URL;
@@ -74,9 +74,9 @@ class Route<T = unknown> {
             if (res && res.status in this._failureCodesMapper) {
                 throw new RequestError(this._failureCodesMapper[res.status]);
             } else if (e instanceof TypeError) {
-                throw new RequestError("Отсутствует подключение к интернету");
+                throw new RequestError("Connection refused");
             } else {
-                throw new RequestError("Неизвестная ошибка сервера");
+                throw new RequestError("Unknown server error");
             }
         }
     }
@@ -94,12 +94,12 @@ const Api = {
             "Content-Type": "application/json",
         },
         failureCodesMapper: {
-            204: "Не удалость найти теги в тексте",
+            204: "Unable to find tags in text",
         },
     }),
     markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
         failureCodesMapper: {
-            204: "Не удалость найти теги в тексте",
+            204: "Unable to find tags in text",
         },
     }),
 };
