@@ -1,5 +1,4 @@
 import { useRef, PointerEvent } from "react";
-import Notifier from "../../components/Notifier/Notifier";
 import TextLoader from "../../components/TextLoader/TextLoader";
 import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
@@ -21,7 +20,6 @@ export default function TextPage() {
 
     return (
         <Page>
-            <Notifier />
             <main className="text-page">
                 <div id="text-loader" ref={textLoaderRef}>
                     <h2 className="text-loader__title">
@@ -36,9 +34,6 @@ export default function TextPage() {
                                 type: "TEXT_MARKUP",
                                 payload: textMarkup,
                             })
-                        }
-                        onError={(error) =>
-                            markupDispatch({ type: "ERROR", payload: error })
                         }
                     />
                 </div>

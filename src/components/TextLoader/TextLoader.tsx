@@ -1,11 +1,12 @@
-import { useState } from "react";
 import Api, { RequestError } from "../../api/api";
+import { useState } from "react";
 import Chooser from "../Chooser/Chooser";
 import TextForm from "../TextForm/TextForm";
 
 import "./TextLoader.scss";
 import FileForm from "../FileForm/FileForm";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export type TextSource = "text" | "file" | "link";
 
@@ -16,37 +17,22 @@ export interface TextLoaderProps {
         tags: string[];
         labels: string[];
     }) => void;
-    onError: (error: string | null) => void;
 }
 
-export default function TextLoader({
-    onText,
-    onTextMarkup,
-    onError,
-}: TextLoaderProps) {
+export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
     const textSourses: TextSource[] = ["text", "file"];
     const [textSource, setTextSource] = useState<TextSource>("text");
     const navigate = useNavigate();
 
     async function handleText(text: string) {
         onText(text);
-        try {
-            const response = await Api.markupText.fetch(
-                JSON.stringify({ text })
-            );
-            onTextMarkup({
-                textClass: response.class,
-                tags: response.tags,
-                labels: response.labels,
-            });
-            navigate("/markup");
-        } catch (e) {
-            if (e instanceof RequestError) {
-                onError(e.message);
-            } else {
-                throw e;
-            }
-        }
+        const response = await Api.markupText.fetch(JSON.stringify({ text }));
+        onTextMarkup({
+            textClass: response.class,
+            tags: response.tags,
+            labels: response.labels,
+        });
+        navigate("/markup");
     }
 
     async function handleFile(file: File) {
@@ -58,21 +44,13 @@ export default function TextLoader({
 
         const formData = new FormData();
         formData.append("file", file);
-        try {
-            const response = await Api.markupFile.fetch(formData);
-            onTextMarkup({
-                textClass: response.class,
-                tags: response.tags,
-                labels: response.labels,
-            });
-            navigate("/markup");
-        } catch (e) {
-            if (e instanceof RequestError) {
-                onError(e.message);
-            } else {
-                throw e;
-            }
-        }
+        const response = await Api.markupFile.fetch(formData);
+        onTextMarkup({
+            textClass: response.class,
+            tags: response.tags,
+            labels: response.labels,
+        });
+        navigate("/markup");
     }
 
     return (
@@ -83,10 +61,36 @@ export default function TextLoader({
                 onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
             />
             {textSource == "text" && (
-                <TextForm submitText="Get markup" onText={handleText} />
+                <TextForm
+                    submitText="Get markup"
+                    onText={(e) => {
+                        toast.promise<void, RequestError>(handleText(e), {
+                            pending: "Processing text",
+                            success: "Successfully",
+                            error: {
+                                render({ data }) {
+                                    return data.message;
+                                },
+                            },
+                        });
+                    }}
+                />
             )}
             {textSource == "file" && (
-                <FileForm submitText="Get markup" onFile={handleFile} />
+                <FileForm
+                    submitText="Get markup"
+                    onFile={(e) => {
+                        toast.promise<void, RequestError>(handleFile(e), {
+                            pending: "Processing text",
+                            success: "Successfully",
+                            error: {
+                                render({ data }) {
+                                    return data.message;
+                                },
+                            },
+                        });
+                    }}
+                />
             )}
         </div>
     );

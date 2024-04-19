@@ -5,10 +5,9 @@ interface Markup {
     tags: string[];
     labels: string[];
     textClass: string | null;
-    error: string | null;
 }
 
-type MarkupActionType = "TEXT" | "TEXT_MARKUP" | "ERROR";
+type MarkupActionType = "TEXT" | "TEXT_MARKUP";
 
 interface MarkupAction {
     type: MarkupActionType;
@@ -23,8 +22,6 @@ type TextMarkupPayload = {
     labels: string[];
 };
 
-type ErrorPayload = string | null;
-
 function markupReducer(state: Markup, action: MarkupAction): Markup {
     const { type, payload } = action;
     switch (type) {
@@ -35,7 +32,6 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 textClass: null,
                 tags: [],
                 labels: [],
-                error: null,
             };
         case "TEXT_MARKUP":
             return {
@@ -43,11 +39,6 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 tags: (payload as TextMarkupPayload).tags,
                 labels: (payload as TextMarkupPayload).labels,
                 textClass: (payload as TextMarkupPayload).textClass,
-            };
-        case "ERROR":
-            return {
-                ...state,
-                error: payload as ErrorPayload,
             };
     }
 }
@@ -66,7 +57,6 @@ export default function MarkupProvider({ children }: MarkupProviderProps) {
         textClass: null,
         tags: [],
         labels: [],
-        error: null,
     });
 
     return (

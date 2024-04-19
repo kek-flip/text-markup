@@ -16,7 +16,7 @@ export default function TextForm({
         const textArea = e.currentTarget.elements.namedItem(
             "text"
         ) as HTMLTextAreaElement;
-        onText(textArea.value);
+        if (textArea.value) onText(textArea.value);
     }
 
     return (

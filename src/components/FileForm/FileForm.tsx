@@ -1,7 +1,7 @@
 import { ChangeEvent, DragEvent, FormEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 import "./FileForm.scss";
-import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 
 export interface FileFormProps {
     submitText: string;
@@ -13,12 +13,12 @@ export default function FileForm({
     onFile = () => {},
 }: FileFormProps) {
     const [file, setFile] = useState<File | null>(null);
-    const markupDispatch = useMarkupDispatch();
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!file) {
-            markupDispatch({ type: "ERROR", payload: "Select a file" });
+            // markupDispatch({ type: "ERROR", payload: "Select a file" });
+            toast.error("Select a file");
             return;
         }
         onFile(file);
@@ -32,11 +32,11 @@ export default function FileForm({
         e.preventDefault();
         e.currentTarget.classList.remove("file-form__file-area_file-over");
         if (e.dataTransfer.items[0].kind != "file") {
-            markupDispatch({ type: "ERROR", payload: "Select a file" });
+            toast.error("Select a file");
             return;
         }
         if (e.dataTransfer.items.length > 1) {
-            markupDispatch({ type: "ERROR", payload: "Select only one file" });
+            toast.error("Select only one file");
             return;
         }
         setFile(e.dataTransfer.items[0].getAsFile());
