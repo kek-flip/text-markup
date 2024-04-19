@@ -1,10 +1,10 @@
 import { useRef, PointerEvent } from "react";
-import Notifier from "../../components/Notifier/Notifier";
 import TextLoader from "../../components/TextLoader/TextLoader";
 import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
 
 import "./TextPage.scss";
+import { toast } from "react-toastify";
 
 export default function TextPage() {
     const markupDispatch = useMarkupDispatch();
@@ -21,7 +21,6 @@ export default function TextPage() {
 
     return (
         <Page>
-            <Notifier />
             <main className="text-page">
                 <div id="text-loader" ref={textLoaderRef}>
                     <h2 className="text-loader__title">
@@ -37,9 +36,10 @@ export default function TextPage() {
                                 payload: textMarkup,
                             })
                         }
-                        onError={(error) =>
-                            markupDispatch({ type: "ERROR", payload: error })
-                        }
+                        onError={(error) => {
+                            // markupDispatch({ type: "ERROR", payload: error })
+                            if (error) toast.error(error);
+                        }}
                     />
                 </div>
                 <div className="about">

@@ -12,12 +12,11 @@ export default function MarkupPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!markup.text) navigate("/")
+        if (!markup.text) navigate("/");
     });
 
     return (
-        markup.text ? 
-        (<Page>
+        <Page>
             <main className="markup-page">
                 <Link to="/" className="markup-page__button">
                     Markup new text
@@ -31,7 +30,6 @@ export default function MarkupPage() {
                     />
                 </div>
             </main>
-        </Page>) :
-        (<div></div>)
+        </Page>
     );
 }
