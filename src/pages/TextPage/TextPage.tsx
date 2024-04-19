@@ -4,7 +4,6 @@ import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
 
 import "./TextPage.scss";
-import { toast } from "react-toastify";
 
 export default function TextPage() {
     const markupDispatch = useMarkupDispatch();
@@ -36,10 +35,6 @@ export default function TextPage() {
                                 payload: textMarkup,
                             })
                         }
-                        onError={(error) => {
-                            // markupDispatch({ type: "ERROR", payload: error })
-                            if (error) toast.error(error);
-                        }}
                     />
                 </div>
                 <div className="about">
