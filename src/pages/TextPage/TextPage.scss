@@ -5,5 +5,70 @@
 
     width: 75%;
 
-    padding-top: clamp(60px, 10vh, 100px);
+    padding-top: clamp(20px, 6vh, 50px);
+}
+
+.about {
+    display: grid;
+    grid-template-columns: 1.61fr 1fr;
+
+    height: clamp(400px, 65vh, 65vh);
+
+    column-gap: 35px;
+}
+
+.about__header {
+    display: flex;
+
+    align-items: center;
+
+    color: var(--black);
+    font-size: 32px;
+    margin: 0;
+}
+
+.about__text {
+    display: flex;
+
+    align-items: center;
+
+    color: var(--black);
+    font-size: 22px;
+}
+
+.about__image {
+    display: flex;
+
+    grid-row: 1 / 4;
+    grid-column: 2;
+
+    width: 100%;
+}
+
+.about__try-it {
+    display: flex;
+
+    align-items: center;
+
+    color: var(--black);
+    font-size: 28px;
+}
+
+#text-loader {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    gap: 50px;
+
+    height: clamp(500px, 80vh, 80vh);
+    width: 100%;
+
+    scroll-margin: 0;
+}
+
+.text-loader__title {
+    font-size: 32px;
+    color: var(--black);
+    margin: 0;
 }
