@@ -68,7 +68,19 @@
 }
 
 .text-loader__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+
+    width: 100%;
+
     font-size: 32px;
     color: var(--black);
     margin: 0;
+}
+
+.text-loader__title::after {
+    content: url("question-mark.svg");
 }

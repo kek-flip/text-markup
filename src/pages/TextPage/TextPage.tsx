@@ -8,13 +8,21 @@ import "./TextPage.scss";
 export default function TextPage() {
     const markupDispatch = useMarkupDispatch();
     const textLoaderRef = useRef<HTMLDivElement>(null);
+    const aboutRef = useRef<HTMLDivElement>(null);
 
-    function handleClick(e: PointerEvent<HTMLAnchorElement>) {
+    function handleTryItClick(e: PointerEvent<HTMLAnchorElement>) {
         e.preventDefault();
 
-        textLoaderRef.current!.scrollIntoView({
+        textLoaderRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "end",
+        });
+    }
+
+    function handleAboutClick() {
+        aboutRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
         });
     }
 
@@ -22,7 +30,10 @@ export default function TextPage() {
         <Page>
             <main className="text-page">
                 <div id="text-loader" ref={textLoaderRef}>
-                    <h2 className="text-loader__title">
+                    <h2
+                        className="text-loader__title"
+                        onClick={handleAboutClick}
+                    >
                         Paste text or upload a file
                     </h2>
                     <TextLoader
@@ -37,7 +48,7 @@ export default function TextPage() {
                         }
                     />
                 </div>
-                <div className="about">
+                <div className="about" ref={aboutRef}>
                     <h2 className="about__header">About us</h2>
                     <div className="about__text">
                         Welcome to our keyword tagging website, where precision
@@ -59,7 +70,7 @@ export default function TextPage() {
                     <a
                         className="about__try-it"
                         href="#text-loader"
-                        onClick={handleClick}
+                        onClick={handleTryItClick}
                     >
                         Try it
                     </a>
