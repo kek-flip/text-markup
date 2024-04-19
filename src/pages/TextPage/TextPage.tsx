@@ -45,11 +45,16 @@ export default function TextPage() {
                 <div className="about">
                     <h2 className="about__header">About us</h2>
                     <div className="about__text">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Nobis odit ipsum suscipit voluptate, perferendis
-                        ipsa alias esse hic eum distinctio reprehenderit harum
-                        adipisci praesentium voluptatem consectetur! Ipsam
-                        tempore asperiores quam!
+                        Welcome to our keyword tagging website, where precision
+                        meets efficiency. With our user-friendly interface,
+                        marking key words in your text has never been easier.
+                        Say goodbye to the chaos of disorganized content and
+                        hello to a streamlined, clear, and structured approach
+                        to identifying and highlighting the most important
+                        terms. Our advanced algorithm ensures accuracy and
+                        speed, saving you time and effort. Join us and unlock
+                        the power of effective keyword tagging for a better,
+                        more organized online presence.
                     </div>
                     <img
                         src="about.jpg"
