@@ -1,6 +1,7 @@
 import { ChangeEvent, DragEvent, FormEvent, useState } from "react";
 
 import "./FileForm.scss";
+import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 
 export interface FileFormProps {
     submitText: string;
@@ -12,11 +13,12 @@ export default function FileForm({
     onFile = () => {},
 }: FileFormProps) {
     const [file, setFile] = useState<File | null>(null);
+    const markupDispatch = useMarkupDispatch();
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!file) {
-            alert("Необходимо загрузить файл");
+            markupDispatch({ type: "ERROR", payload: "Select a file" });
             return;
         }
         onFile(file);
@@ -30,11 +32,11 @@ export default function FileForm({
         e.preventDefault();
         e.currentTarget.classList.remove("file-form__file-area_file-over");
         if (e.dataTransfer.items[0].kind != "file") {
-            alert("Пожалуйста, загрузите файл");
+            markupDispatch({ type: "ERROR", payload: "Select a file" });
             return;
         }
         if (e.dataTransfer.items.length > 1) {
-            alert("Пожалуйста, загрузите только один файл");
+            markupDispatch({ type: "ERROR", payload: "Select only one file" });
             return;
         }
         setFile(e.dataTransfer.items[0].getAsFile());
@@ -63,7 +65,7 @@ export default function FileForm({
                         className="file-form__file-area__label"
                         htmlFor="file-form__file"
                     >
-                        {file ? file.name : "Выберите файл или перетащите его"}
+                        {file ? file.name : "Select a file or drag'n'drop it"}
                     </label>
                     <input
                         type="file"
