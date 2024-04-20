@@ -17,7 +17,7 @@ export default function MarkupPage() {
 
     return (
         <Page>
-            <main className="markup-page">
+            <div className="markup-page">
                 <Link to="/" className="markup-page__button">
                     Markup new text
                 </Link>
@@ -29,7 +29,7 @@ export default function MarkupPage() {
                         textClass={markup.textClass!}
                     />
                 </div>
-            </main>
+            </div>
         </Page>
     );
 }
