@@ -28,7 +28,7 @@ export default function TextPage() {
 
     return (
         <Page>
-            <main className="text-page">
+            <div className="text-page">
                 <div id="text-loader" ref={textLoaderRef}>
                     <h2
                         className="text-loader__title"
@@ -75,7 +75,7 @@ export default function TextPage() {
                         Try it
                     </a>
                 </div>
-            </main>
+            </div>
         </Page>
     );
 }

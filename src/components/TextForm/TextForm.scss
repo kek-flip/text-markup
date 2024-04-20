@@ -15,7 +15,7 @@
 
     font-size: 1rem;
 
-    border-radius: 13px;
+    border-radius: var(--border-radius);;
     padding: 0.7rem 1.2rem;
 }
 
@@ -31,7 +31,7 @@
     background-color: var(--blue);
     padding: 0.7rem;
     border: none;
-    border-radius: 13px;
+    border-radius: var(--border-radius);;
 
     font-size: 1.3rem;
 }

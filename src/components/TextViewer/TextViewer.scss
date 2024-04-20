@@ -6,6 +6,6 @@
     padding: 10px 15px;
 
     border: 1.5px solid var(--black);
-    border-radius: 13px;
+    border-radius: var(--border-radius);;
     overflow: auto;
 }
