@@ -88,7 +88,7 @@ export default function TextPage() {
                         использовать в дальнейшей программной обработке текста.
                     </div>
                     <img
-                        src="user-guide.png"
+                        src="user-guide.gif"
                         alt="Как это работает"
                         className="user-guide__image"
                     />
