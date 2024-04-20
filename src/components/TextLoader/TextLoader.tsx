@@ -8,7 +8,7 @@ import FileForm from "../FileForm/FileForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export type TextSource = "text" | "file" | "link";
+export type TextSource = "Текст" | "Файл";
 
 export interface TextLoaderProps {
     onText: (text: string | null) => void;
@@ -20,8 +20,8 @@ export interface TextLoaderProps {
 }
 
 export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
-    const textSourses: TextSource[] = ["text", "file"];
-    const [textSource, setTextSource] = useState<TextSource>("text");
+    const textSourses: TextSource[] = ["Текст", "Файл"];
+    const [textSource, setTextSource] = useState<TextSource>("Текст");
     const navigate = useNavigate();
 
     async function handleText(text: string) {
@@ -60,13 +60,13 @@ export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
                 startOption={textSource}
                 onChoose={(textSrc) => setTextSource(textSrc as TextSource)}
             />
-            {textSource == "text" && (
+            {textSource == "Текст" && (
                 <TextForm
-                    submitText="Get markup"
+                    submitText="Получить разметку"
                     onText={(e) => {
                         toast.promise<void, RequestError>(handleText(e), {
-                            pending: "Processing text",
-                            success: "Successfully",
+                            pending: "Обработка текста",
+                            success: "Успешно",
                             error: {
                                 render({ data }) {
                                     return data.message;
@@ -76,13 +76,13 @@ export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
                     }}
                 />
             )}
-            {textSource == "file" && (
+            {textSource == "Файл" && (
                 <FileForm
-                    submitText="Get markup"
+                    submitText="Получить разметку"
                     onFile={(e) => {
                         toast.promise<void, RequestError>(handleFile(e), {
-                            pending: "Processing text",
-                            success: "Successfully",
+                            pending: "Обработка текста",
+                            success: "Успешно",
                             error: {
                                 render({ data }) {
                                     return data.message;

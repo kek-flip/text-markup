@@ -74,9 +74,9 @@ class Route<T = unknown> {
             if (res && res.status in this._failureCodesMapper) {
                 throw new RequestError(this._failureCodesMapper[res.status]);
             } else if (e instanceof TypeError) {
-                throw new RequestError("Connection refused");
+                throw new RequestError("Ошибка интернет соединения");
             } else {
-                throw new RequestError("Unknown server error");
+                throw new RequestError("Неизвестная ошибка сервера");
             }
         }
     }
@@ -94,12 +94,12 @@ const Api = {
             "Content-Type": "application/json",
         },
         failureCodesMapper: {
-            204: "Unable to find tags in text",
+            204: "Невозможно найти теги в тексте",
         },
     }),
     markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
         failureCodesMapper: {
-            204: "Unable to find tags in text",
+            204: "Невозможно найти теги в тексте",
         },
     }),
 };

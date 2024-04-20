@@ -34,7 +34,7 @@ export default function TextPage() {
                         className="text-loader__title"
                         onClick={handleAboutClick}
                     >
-                        Paste text or upload a file
+                        Вставьте текст или загрузите файл
                     </h2>
                     <TextLoader
                         onText={(text) =>
@@ -49,22 +49,24 @@ export default function TextPage() {
                     />
                 </div>
                 <div className="about" ref={aboutRef}>
-                    <h2 className="about__header">About us</h2>
+                    <h2 className="about__header">О нас</h2>
                     <div className="about__text">
-                        Welcome to our keyword tagging website, where precision
-                        meets efficiency. With our user-friendly interface,
-                        marking key words in your text has never been easier.
-                        Say goodbye to the chaos of disorganized content and
-                        hello to a streamlined, clear, and structured approach
-                        to identifying and highlighting the most important
-                        terms. Our advanced algorithm ensures accuracy and
-                        speed, saving you time and effort. Join us and unlock
-                        the power of effective keyword tagging for a better,
-                        more organized online presence.
+                        Добро пожаловать на наш сервис по получению тегов
+                        текста, где точность сочетается с эффективностью.
+                        Благодаря нашему удобному интерфейсу выделение ключевых
+                        слов в тексте стало еще проще. Попрощайтесь с хаосом
+                        неорганизованного контента и приветствуйте рациональный,
+                        ясный и структурированный подход к определению и
+                        выделению наиболее важных терминов. Наш
+                        усовершенствованный алгоритм обеспечивает точность и
+                        скорость, экономя ваше время и усилия. Присоединяйтесь к
+                        нам и раскройте возможности эффективной разметки
+                        ключевых слов для лучшего и более организованного
+                        присутствия в Интернете.
                     </div>
                     <img
                         src="about.jpg"
-                        alt="Text markup"
+                        alt="Разметка текста"
                         className="about__image"
                     />
                     <a
@@ -72,7 +74,7 @@ export default function TextPage() {
                         href="#text-loader"
                         onClick={handleTryItClick}
                     >
-                        Try it
+                        Попробуйте сейчас
                     </a>
                 </div>
             </div>
