@@ -29,9 +29,9 @@ export default function TextPage() {
     return (
         <Page>
             <div className="text-page">
-                <div id="text-loader" ref={textLoaderRef}>
+                <div className="text-page__text-loader" ref={textLoaderRef}>
                     <h2
-                        className="text-loader__title"
+                        className="text-page__text-loader__title"
                         onClick={handleAboutClick}
                     >
                         Paste text or upload a file

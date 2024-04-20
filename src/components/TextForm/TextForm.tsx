@@ -27,7 +27,7 @@ export default function TextForm({
                 id="text-form_text"
                 placeholder="Paste your text..."
             ></textarea>
-            <button className="text-form__submit" type="submit">
+            <button className="text-form__submit submit-button" type="submit">
                 {submitText}
             </button>
         </form>
