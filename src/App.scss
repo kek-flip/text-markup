@@ -19,3 +19,20 @@ body {
 * {
     font-family: var(--font-family);
 }
+
+.submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    max-height: 2.7rem;
+    min-width: fit-content;
+
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 0.7rem;
+    border: none;
+    border-radius: var(--border-radius);
+
+    font-size: 1.3rem;
+}

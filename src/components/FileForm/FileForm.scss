@@ -18,7 +18,7 @@
     padding: 0.7rem 1.2rem;
 
     border: 1px solid var(--black);
-    border-radius: var(--border-radius);;
+    border-radius: var(--border-radius);
     &_file-over {
         box-shadow: 0px 0px 5px var(--blue);
     }
@@ -46,18 +46,5 @@
 }
 
 .file-form__submit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    min-width: 10rem;
     width: 25%;
-
-    color: var(--white);
-    background-color: var(--blue);
-    padding: 0.7rem;
-    border: none;
-    border-radius: var(--border-radius);;
-
-    font-size: 1.3rem;
 }

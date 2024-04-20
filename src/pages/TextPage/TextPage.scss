@@ -9,7 +9,7 @@
     padding-top: 2.5rem;
 }
 
-#text-loader {
+.text-page__text-loader {
     display: flex;
     flex-direction: column;
 
@@ -21,7 +21,7 @@
     scroll-margin: 0;
 }
 
-.text-loader__title {
+.text-page__text-loader__title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +35,7 @@
     margin: 0;
 }
 
-.text-loader__title::after {
+.text-page__text-loader__title::after {
     content: url("/question-mark.svg");
 }
 

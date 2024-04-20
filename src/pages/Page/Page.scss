@@ -32,6 +32,9 @@ $half-padding-size: calc($padding-size / 2);
 .main {
     display: flex;
     justify-content: center;
+
+    width: 100%;
+
     background-color: var(--white);
     padding-bottom: $padding-size;
     border-radius: var(--border-radius);

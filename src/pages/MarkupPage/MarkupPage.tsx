@@ -1,28 +1,46 @@
-import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import MarkupViewer from "../../components/MarkupViewer/MarkupViewer";
 import TextViewer from "../../components/TextViewer/TextViewer";
-import { useMarkup } from "../../contexts/MarkupProvider/MarkupHooks";
+import {
+    useMarkup,
+    useMarkupDispatch,
+} from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
-import { useEffect } from "react";
 
 import "./MarkupPage.scss";
+import Api, { RequestError } from "../../api/api";
 
 export default function MarkupPage() {
     const markup = useMarkup();
-    const navigate = useNavigate();
+    const markupDispatch = useMarkupDispatch();
 
-    useEffect(() => {
-        if (!markup.text) navigate("/");
-    });
+    async function handleText(text: string) {
+        markupDispatch({ type: "TEXT", payload: text });
+        const respose = await Api.markupText.fetch(JSON.stringify({ text }));
+        markupDispatch({ type: "TEXT_MARKUP", payload: respose });
+    }
 
     return (
         <Page>
             <div className="markup-page">
-                <Link to="/" className="markup-page__button">
-                    Markup new text
-                </Link>
                 <div className="markup-page__content">
-                    <TextViewer text={markup.text!} />
+                    <TextViewer
+                        onText={(text) => {
+                            toast.promise<void, RequestError>(
+                                handleText(text),
+                                {
+                                    pending: "Обработка текста",
+                                    success: "Успешно",
+                                    error: {
+                                        render({ data }) {
+                                            return data.message;
+                                        },
+                                    },
+                                }
+                            );
+                        }}
+                        submitText="Получить разметку"
+                    />
                     <MarkupViewer
                         tags={markup.tags}
                         labels={markup.labels}

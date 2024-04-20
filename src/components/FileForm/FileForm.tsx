@@ -75,7 +75,10 @@ export default function FileForm({
                         hidden
                     />
                 </div>
-                <button className="file-form__submit" type="submit">
+                <button
+                    className="file-form__submit submit-button"
+                    type="submit"
+                >
                     {submitText}
                 </button>
             </form>
