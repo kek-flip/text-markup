@@ -18,7 +18,7 @@ export default function FileForm({
         e.preventDefault();
         if (!file) {
             // markupDispatch({ type: "ERROR", payload: "Select a file" });
-            toast.error("Select a file");
+            toast.error("Выберите файл");
             return;
         }
         onFile(file);
@@ -32,11 +32,11 @@ export default function FileForm({
         e.preventDefault();
         e.currentTarget.classList.remove("file-form__file-area_file-over");
         if (e.dataTransfer.items[0].kind != "file") {
-            toast.error("Select a file");
+            toast.error("Выберите файл");
             return;
         }
         if (e.dataTransfer.items.length > 1) {
-            toast.error("Select only one file");
+            toast.error("Выберите только один файл");
             return;
         }
         setFile(e.dataTransfer.items[0].getAsFile());
@@ -65,7 +65,7 @@ export default function FileForm({
                         className="file-form__file-area__label"
                         htmlFor="file-form__file"
                     >
-                        {file ? file.name : "Select a file or drag'n'drop it"}
+                        {file ? file.name : "Выберите файл или перетащите его"}
                     </label>
                     <input
                         type="file"
