@@ -24,7 +24,14 @@ export default function MarkupPage() {
     async function handleText(text: string) {
         markupDispatch({ type: "TEXT", payload: text });
         const respose = await Api.markupText.fetch(JSON.stringify({ text }));
-        markupDispatch({ type: "TEXT_MARKUP", payload: respose });
+        markupDispatch({
+            type: "TEXT_MARKUP",
+            payload: {
+                textClass: respose.class,
+                tags: respose.tags,
+                labels: respose.labels,
+            },
+        });
     }
 
     return (

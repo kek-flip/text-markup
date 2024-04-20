@@ -29,9 +29,6 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
             return {
                 ...state,
                 text: payload as TextPayload,
-                textClass: null,
-                tags: [],
-                labels: [],
             };
         case "TEXT_MARKUP":
             return {
