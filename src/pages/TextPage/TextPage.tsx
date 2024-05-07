@@ -38,6 +38,11 @@ export default function TextPage() {
                 </div>
                 <div className="about" ref={aboutRef}>
                     <h2 className="about__header">О нас</h2>
+                    <img
+                        src="about.jpg"
+                        alt="Разметка текста"
+                        className="about__image"
+                    />
                     <div className="about__text">
                         Добро пожаловать на наш сервис по получению тегов
                         текста, где точность сочетается с эффективностью.
@@ -52,11 +57,6 @@ export default function TextPage() {
                         ключевых слов для лучшего и более организованного
                         присутствия в Интернете.
                     </div>
-                    <img
-                        src="about.jpg"
-                        alt="Разметка текста"
-                        className="about__image"
-                    />
                     <a
                         className="about__try-it"
                         href="#text-loader"

@@ -5,6 +5,10 @@
     align-items: center;
 
     width: 55%;
+
+    @media screen and (max-width: 461px) {
+        width: 90%;
+    }
 }
 
 .chooser__item {
@@ -19,6 +23,10 @@
 
 .chooser__item__content {
     font-size: 1.8rem;
+    @media screen and (max-width: 461px) {
+        font-size: 1.6rem;
+    }
+
     color: var(--black);
 
     &:hover {

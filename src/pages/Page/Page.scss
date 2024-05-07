@@ -1,4 +1,5 @@
 $margin-sides-size: 5rem;
+$mobile-margin-sides-size: 1rem;
 $padding-size: 2rem;
 $half-padding-size: calc($padding-size / 2);
 
@@ -9,7 +10,11 @@ $half-padding-size: calc($padding-size / 2);
     align-items: center;
 
     padding-bottom: $padding-size;
+
     margin: 0 $margin-sides-size 0 $margin-sides-size;
+    @media screen and (max-width: 461px) {
+        margin: 0 $mobile-margin-sides-size 0 $mobile-margin-sides-size;
+    }
 }
 
 .header {
