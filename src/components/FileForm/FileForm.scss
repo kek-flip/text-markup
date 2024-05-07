@@ -43,7 +43,7 @@
     cursor: pointer;
     text-align: center;
 
-    &:hover,
+    &:hover, &:active,
     .file-form__file-area_file-over > & {
         color: var(--blue);
         text-decoration: underline;

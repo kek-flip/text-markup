@@ -29,7 +29,7 @@
 
     color: var(--black);
 
-    &:hover {
+    &:hover, &:active {
         text-decoration: underline;
         text-decoration-thickness: 3px;
     }

@@ -20,6 +20,9 @@
 .text-viewer__file-area__textarea {
     width: 100%;
     min-height: 16em;
+    @media screen and (max-width: 461px) {
+        min-height: 10em;
+    }
 
     resize: none;
     font-size: 1rem;
@@ -44,7 +47,7 @@
 .text-viewer__file-loader__label {
     color: var(--black);
 
-    &:hover {
+    &:hover, &:active {
         color: var(--blue);
         text-decoration: underline;
         text-decoration-thickness: 2px;

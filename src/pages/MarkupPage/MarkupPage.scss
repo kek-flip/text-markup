@@ -1,6 +1,10 @@
 .markup-page {
     display: grid;
     grid-template-columns: 1.61fr 1fr;
+    @media screen and (max-width: 461px) {
+        grid-template-columns: 1fr;
+        row-gap: 2rem;        
+    }
 
     column-gap: 4rem;
 
