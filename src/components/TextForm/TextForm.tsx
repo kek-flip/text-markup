@@ -14,10 +14,10 @@ export default function TextForm() {
 
     async function handleText(text: string) {
         const response = await Api.markupText.fetch(JSON.stringify({ text }));
-        markupDispatch({ type: "TEXT", payload: text });
         markupDispatch({
-            type: "TEXT_MARKUP",
+            type: "TEXT_WITH_MARKUP",
             payload: {
+                text,
                 textClass: response.class,
                 tags: response.tags,
                 labels: response.labels,

@@ -7,7 +7,7 @@ interface Markup {
     textClass: string | null;
 }
 
-type MarkupActionType = "TEXT" | "TEXT_MARKUP";
+type MarkupActionType = "TEXT" | "TEXT_MARKUP" | "TEXT_WITH_MARKUP";
 
 interface MarkupAction {
     type: MarkupActionType;
@@ -21,6 +21,8 @@ type TextMarkupPayload = {
     tags: string[];
     labels: string[];
 };
+
+type TextWithMarkupPayload = { text: string } & TextMarkupPayload;
 
 function markupReducer(state: Markup, action: MarkupAction): Markup {
     const { type, payload } = action;
@@ -37,6 +39,14 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 labels: (payload as TextMarkupPayload).labels,
                 textClass: (payload as TextMarkupPayload).textClass,
             };
+        case "TEXT_WITH_MARKUP":
+            return {
+                ...state,
+                text: (payload as TextWithMarkupPayload).text,
+                tags: (payload as TextWithMarkupPayload).tags,
+                labels: (payload as TextWithMarkupPayload).labels,
+                textClass: (payload as TextWithMarkupPayload).textClass,
+            };
     }
 }
 
@@ -44,7 +54,7 @@ export const MarkupContext = createContext<Markup | null>(null);
 export const MarkupDispatchContext =
     createContext<Dispatch<MarkupAction> | null>(null);
 
-interface MarkupProviderProps {
+export interface MarkupProviderProps {
     children: ReactNode;
 }
 

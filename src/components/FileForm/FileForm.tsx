@@ -29,10 +29,10 @@ export default function FileForm() {
             };
         });
 
-        markupDispatch({ type: "TEXT", payload: text });
         markupDispatch({
-            type: "TEXT_MARKUP",
+            type: "TEXT_WITH_MARKUP",
             payload: {
+                text,
                 textClass: response.class,
                 tags: response.tags,
                 labels: response.labels,
