@@ -47,7 +47,7 @@ export default function TextForm() {
     return (
         <form className="text-form" onSubmit={handleSubmit}>
             <textarea
-                className="text-form__textarea"
+                className="text-form__textarea scrollable"
                 name="text"
                 id="text-form_text"
                 placeholder="Вставьте текст..."

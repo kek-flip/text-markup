@@ -105,7 +105,7 @@ export default function TextViewer() {
                 onFile={(file) => setFile(file)}
             >
                 <textarea
-                    className="text-viewer__file-area__textarea"
+                    className="text-viewer__file-area__textarea scrollable"
                     name="text"
                     id="text-viewer_text"
                     placeholder="Вставьте текст..."

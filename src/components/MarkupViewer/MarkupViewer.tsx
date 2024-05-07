@@ -14,7 +14,7 @@ export default function MarkupViewer() {
     }
 
     return (
-        <div className="markup-viewer">
+        <div className="markup-viewer scrollable">
             <div className="markup-viewer__text-class">
                 <h3 className="markup-viewer__text-class__title">
                     Класс текста:
