@@ -25,8 +25,8 @@ export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
     const navigate = useNavigate();
 
     async function handleText(text: string) {
-        onText(text);
         const response = await Api.markupText.fetch(JSON.stringify({ text }));
+        onText(text);
         onTextMarkup({
             textClass: response.class,
             tags: response.tags,
@@ -36,15 +36,22 @@ export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
     }
 
     async function handleFile(file: File) {
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => {
-            onText(reader.result as string);
-        };
-
         const formData = new FormData();
         formData.append("file", file);
         const response = await Api.markupFile.fetch(formData);
+
+        const text = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                resolve(reader.result as string);
+            };
+            reader.onerror = () => {
+                reject("Не удалось прочитать файл");
+            };
+        });
+
+        onText(text);
         onTextMarkup({
             textClass: response.class,
             tags: response.tags,
@@ -80,15 +87,22 @@ export default function TextLoader({ onText, onTextMarkup }: TextLoaderProps) {
                 <FileForm
                     submitText="Получить разметку"
                     onFile={(e) => {
-                        toast.promise<void, RequestError>(handleFile(e), {
-                            pending: "Обработка текста",
-                            success: "Успешно",
-                            error: {
-                                render({ data }) {
-                                    return data.message;
+                        toast.promise<void, RequestError | string>(
+                            handleFile(e),
+                            {
+                                pending: "Обработка текста",
+                                success: "Успешно",
+                                error: {
+                                    render({ data }) {
+                                        if (typeof data == "string") {
+                                            return data;
+                                        } else {
+                                            return data.message;
+                                        }
+                                    },
                                 },
-                            },
-                        });
+                            }
+                        );
                     }}
                 />
             )}

@@ -100,6 +100,7 @@ const Api = {
     markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
         failureCodesMapper: {
             204: "Невозможно найти теги в тексте",
+            400: "Невалидный формат файла",
         },
     }),
 };
