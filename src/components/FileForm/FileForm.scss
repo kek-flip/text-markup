@@ -14,7 +14,12 @@
     justify-content: center;
 
     width: 70%;
+
     height: 16rem;
+    @media screen and (max-width: 461px) {
+        height: 10em;
+    }
+
     padding: 0.7rem 1.2rem;
 
     border: 1px solid var(--black);
@@ -36,6 +41,7 @@
     font-size: 1.2rem;
 
     cursor: pointer;
+    text-align: center;
 
     &:hover,
     .file-form__file-area_file-over > & {
