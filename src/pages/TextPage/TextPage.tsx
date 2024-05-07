@@ -1,12 +1,10 @@
 import { useRef, PointerEvent } from "react";
 import TextLoader from "../../components/TextLoader/TextLoader";
-import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 import Page from "../Page/Page";
 
 import "./TextPage.scss";
 
 export default function TextPage() {
-    const markupDispatch = useMarkupDispatch();
     const textLoaderRef = useRef<HTMLDivElement>(null);
     const aboutRef = useRef<HTMLDivElement>(null);
 
@@ -36,17 +34,7 @@ export default function TextPage() {
                     >
                         Вставьте текст или загрузите файл
                     </h2>
-                    <TextLoader
-                        onText={(text) =>
-                            markupDispatch({ type: "TEXT", payload: text })
-                        }
-                        onTextMarkup={(textMarkup) =>
-                            markupDispatch({
-                                type: "TEXT_MARKUP",
-                                payload: textMarkup,
-                            })
-                        }
-                    />
+                    <TextLoader />
                 </div>
                 <div className="about" ref={aboutRef}>
                     <h2 className="about__header">О нас</h2>

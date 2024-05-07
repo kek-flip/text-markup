@@ -2,26 +2,66 @@ import { ChangeEvent, DragEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 import "./FileForm.scss";
+import Api, { RequestError } from "../../api/api";
+import { useNavigate } from "react-router-dom";
+import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
 
-export interface FileFormProps {
-    submitText: string;
-    onFile?: (file: File) => void;
-}
+export interface FileFormProps {}
 
-export default function FileForm({
-    submitText,
-    onFile = () => {},
-}: FileFormProps) {
+export default function FileForm() {
     const [file, setFile] = useState<File | null>(null);
+    const navigate = useNavigate();
+    const markupDispatch = useMarkupDispatch();
+
+    async function handleFile(file: File) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await Api.markupFile.fetch(formData);
+
+        const text = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                resolve(reader.result as string);
+            };
+            reader.onerror = () => {
+                reject("Не удалось прочитать файл");
+            };
+        });
+
+        markupDispatch({ type: "TEXT", payload: text });
+        markupDispatch({
+            type: "TEXT_MARKUP",
+            payload: {
+                textClass: response.class,
+                tags: response.tags,
+                labels: response.labels,
+            },
+        });
+
+        navigate("/markup");
+    }
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!file) {
-            // markupDispatch({ type: "ERROR", payload: "Select a file" });
             toast.error("Выберите файл");
             return;
         }
-        onFile(file);
+
+        toast.promise<void, RequestError | string>(handleFile(file), {
+            pending: "Обработка текста",
+            success: "Успешно",
+            error: {
+                render({ data }) {
+                    if (typeof data == "string") {
+                        return data;
+                    } else {
+                        return data.message;
+                    }
+                },
+            },
+        });
     }
 
     function handleFileSelection(e: ChangeEvent<HTMLInputElement>) {
@@ -79,7 +119,7 @@ export default function FileForm({
                     className="file-form__submit submit-button"
                     type="submit"
                 >
-                    {submitText}
+                    Получить разметку
                 </button>
             </form>
         </>
