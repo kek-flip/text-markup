@@ -1,10 +1,11 @@
-import { ChangeEvent, DragEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
-
-import "./FileForm.scss";
 import Api, { RequestError } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
+import FileDropArea from "../FileDropArea/FileDropArea";
+
+import "./FileForm.scss";
 
 export interface FileFormProps {}
 
@@ -64,42 +65,16 @@ export default function FileForm() {
         });
     }
 
-    function handleFileSelection(e: ChangeEvent<HTMLInputElement>) {
+    function handleFileLoad(e: ChangeEvent<HTMLInputElement>) {
         setFile(e.currentTarget.files!.item(0));
-    }
-
-    function handleFileDrop(e: DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.remove("file-form__file-area_file-over");
-        if (e.dataTransfer.items[0].kind != "file") {
-            toast.error("Выберите файл");
-            return;
-        }
-        if (e.dataTransfer.items.length > 1) {
-            toast.error("Выберите только один файл");
-            return;
-        }
-        setFile(e.dataTransfer.items[0].getAsFile());
-    }
-
-    function handleFileDragOver(e: DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.add("file-form__file-area_file-over");
-    }
-
-    function handleFileDragLeave(e: DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.remove("file-form__file-area_file-over");
     }
 
     return (
         <>
             <form className="file-form" onSubmit={handleSubmit}>
-                <div
+                <FileDropArea
                     className="file-form__file-area"
-                    onDrop={handleFileDrop}
-                    onDragOver={handleFileDragOver}
-                    onDragLeave={handleFileDragLeave}
+                    onFile={(file) => setFile(file)}
                 >
                     <label
                         className="file-form__file-area__label"
@@ -111,10 +86,10 @@ export default function FileForm() {
                         type="file"
                         name="file"
                         id="file-form__file"
-                        onChange={handleFileSelection}
+                        onChange={handleFileLoad}
                         hidden
                     />
-                </div>
+                </FileDropArea>
                 <button
                     className="file-form__submit submit-button"
                     type="submit"

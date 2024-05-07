@@ -1,15 +1,10 @@
+import { useMarkup } from "../../contexts/MarkupProvider/MarkupHooks";
 import "./MarkupViewer.scss";
-export interface MarkupViewerProps {
-    tags: string[];
-    labels: string[];
-    textClass: string;
-}
+export interface MarkupViewerProps {}
 
-export default function MarkupViewer({
-    tags = [],
-    labels = [],
-    textClass,
-}: MarkupViewerProps) {
+export default function MarkupViewer() {
+    const { tags, labels, textClass } = useMarkup();
+
     const items = [];
     for (let i = 0; i < tags.length; i++) {
         items.push({
@@ -35,10 +30,16 @@ export default function MarkupViewer({
                 </h3>
                 {items.map(({ tag, label }) => (
                     <>
-                        <div key={tag} className="markup-viewer__tags-labels__tag">
+                        <div
+                            key={tag}
+                            className="markup-viewer__tags-labels__tag"
+                        >
                             {tag}
                         </div>
-                        <div key={label} className="markup-viewer__tags-labels__label">
+                        <div
+                            key={label}
+                            className="markup-viewer__tags-labels__label"
+                        >
                             {label}
                         </div>
                     </>
