@@ -7,17 +7,24 @@ interface Markup {
     textClass: string | null;
 }
 
-type MarkupActionType = "TEXT" | "TEXT_MARKUP" | "TEXT_WITH_MARKUP";
-
-interface MarkupAction {
-    type: MarkupActionType;
-    payload: unknown;
-}
+type MarkupAction =
+    | {
+          type: "TEXT";
+          payload: TextPayload;
+      }
+    | {
+          type: "TEXT_MARKUP";
+          payload: TextMarkupPayload;
+      }
+    | {
+          type: "TEXT_WITH_MARKUP";
+          payload: TextWithMarkupPayload;
+      };
 
 type TextPayload = string | null;
 
 type TextMarkupPayload = {
-    textClass: string;
+    textClass: string | null;
     tags: string[];
     labels: string[];
 };
