@@ -28,6 +28,7 @@
     }
 
     color: var(--black);
+    cursor: pointer;
 
     &:hover, &:active {
         text-decoration: underline;

@@ -49,6 +49,7 @@
 
 .text-viewer__file-loader__label {
     color: var(--black);
+    cursor: pointer;
 
     &:hover, &:active {
         color: var(--blue);
