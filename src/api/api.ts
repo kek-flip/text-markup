@@ -31,8 +31,9 @@ interface RouteOptions {
 }
 
 const DEFAULT_FAILURE_CODES_MAPPER: StatusCodeMapper = {
-    404: "Not found",
-    500: "Internal server error",
+    404: "Не найдено",
+    413: "Слишком большой текст",
+    500: "Ошибка сервера",
 };
 
 const URL = import.meta.env.VITE_API_URL;
