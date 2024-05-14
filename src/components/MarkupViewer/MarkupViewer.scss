@@ -70,6 +70,7 @@
 .markup-viewer__tags-labels__tag,
 .markup-viewer__tags-labels__label {
     display: flex;
+    align-items: center;
 
     font-size: 1.3rem;
     @media screen and (max-width: 461px) {
