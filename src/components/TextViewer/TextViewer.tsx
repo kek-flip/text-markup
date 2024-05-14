@@ -10,7 +10,7 @@ import "./TextViewer.scss";
 export interface TextViewerProps {}
 
 export default function TextViewer() {
-    const { text } = useMarkup();
+    const { text, loading } = useMarkup();
     const markupDispatch = useMarkupDispatch();
     const [file, setFile] = useState<File | null>(null);
 
@@ -51,24 +51,31 @@ export default function TextViewer() {
                             payload: e.target.value,
                         })
                     }
+                    disabled={loading}
                 ></textarea>
             </FileDropArea>
             <div className="text-viewer__file-loader">
+                <input
+                    type="file"
+                    name="file"
+                    className="text-viewer__file-loader__input"
+                    id="text-viewer__file"
+                    onChange={hadleFileLoad}
+                    hidden
+                    disabled={loading}
+                />
                 <label
                     className="text-viewer__file-loader__label"
                     htmlFor="text-viewer__file"
                 >
                     Загрузить файл
                 </label>
-                <input
-                    type="file"
-                    name="file"
-                    id="text-viewer__file"
-                    onChange={hadleFileLoad}
-                    hidden
-                />
             </div>
-            <button className="text-viewer__submit submit-button" type="submit">
+            <button
+                className="text-viewer__submit submit-button"
+                type="submit"
+                disabled={loading}
+            >
                 Получить разметку
             </button>
         </form>

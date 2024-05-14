@@ -29,6 +29,10 @@
     }
 }
 
+.file-form__file-area__input:disabled + .file-form__file-area__label {
+    pointer-events: none;
+}
+
 .file-form__file-area__label {
     display: flex;
     justify-content: center;
@@ -43,7 +47,8 @@
     cursor: pointer;
     text-align: center;
 
-    &:hover, &:active,
+    &:hover,
+    &:active,
     .file-form__file-area_file-over > & {
         color: var(--blue);
         text-decoration: underline;

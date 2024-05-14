@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export interface TextFormProps {}
 
 export default function TextForm() {
-    const { text } = useMarkup();
+    const { text, loading } = useMarkup();
     const markupDispatch = useMarkupDispatch();
     const navigate = useNavigate();
 
@@ -39,8 +39,13 @@ export default function TextForm() {
                         payload: e.target.value,
                     })
                 }
+                disabled={loading}
             ></textarea>
-            <button className="text-form__submit submit-button" type="submit">
+            <button
+                className="text-form__submit submit-button"
+                type="submit"
+                disabled={loading}
+            >
                 Получить разметку
             </button>
         </form>

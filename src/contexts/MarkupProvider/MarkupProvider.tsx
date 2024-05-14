@@ -8,6 +8,7 @@ interface Markup {
     tags: string[];
     labels: string[];
     textClass: string | null;
+    loading: boolean;
 }
 
 type MarkupAction =
@@ -30,6 +31,14 @@ type MarkupAction =
     | {
           type: "FETCH_FILE";
           payload: File;
+      }
+    | {
+          type: "FETCH";
+          payload: null;
+      }
+    | {
+          type: "FETCH_END";
+          payload: null;
       };
 
 type TextPayload = string | null;
@@ -56,6 +65,7 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 tags: (payload as TextMarkupPayload).tags,
                 labels: (payload as TextMarkupPayload).labels,
                 textClass: (payload as TextMarkupPayload).textClass,
+                loading: false,
             };
         case "TEXT_WITH_MARKUP":
             return {
@@ -64,6 +74,17 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 tags: (payload as TextWithMarkupPayload).tags,
                 labels: (payload as TextWithMarkupPayload).labels,
                 textClass: (payload as TextWithMarkupPayload).textClass,
+                loading: false,
+            };
+        case "FETCH":
+            return {
+                ...state,
+                loading: true,
+            };
+        case "FETCH_END":
+            return {
+                ...state,
+                loading: false,
             };
         default:
             return state;
@@ -73,6 +94,21 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
 export const MarkupContext = createContext<Markup | null>(null);
 export const MarkupDispatchContext =
     createContext<Dispatch<MarkupAction> | null>(null);
+
+function handleFetch(
+    action: MarkupAction,
+    dispatch: Dispatch<MarkupAction>
+): MarkupAction {
+    if (action.type != "FETCH_TEXT" && action.type != "FETCH_FILE")
+        return action;
+
+    dispatch({
+        type: "FETCH",
+        payload: null,
+    });
+
+    return action;
+}
 
 function handleText(
     action: MarkupAction,
@@ -94,7 +130,8 @@ function handleText(
                     labels: response.labels,
                 },
             });
-        });
+        })
+        .finally(() => dispatch({ type: "FETCH_END", payload: null }));
 
     toast.promise<void, RequestError>(textPromise, {
         pending: "Обработка текста",
@@ -132,8 +169,8 @@ function handleFile(
         };
     });
 
-    const markupPromise = Promise.all([responsePromise, textPromise]).then(
-        ([response, text]) => {
+    const markupPromise = Promise.all([responsePromise, textPromise])
+        .then(([response, text]) => {
             dispatch({
                 type: "TEXT",
                 payload: text,
@@ -146,8 +183,8 @@ function handleFile(
                     labels: response.labels,
                 },
             });
-        }
-    );
+        })
+        .finally(() => dispatch({ type: "FETCH_END", payload: null }));
 
     toast.promise(markupPromise, {
         pending: "Обработка текста",
@@ -178,8 +215,9 @@ export default function MarkupProvider({ children }: MarkupProviderProps) {
             textClass: null,
             tags: [],
             labels: [],
+            loading: false,
         },
-        [handleText, handleFile]
+        [handleFetch, handleText, handleFile]
     );
 
     return (

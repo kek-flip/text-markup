@@ -47,14 +47,23 @@
     }
 }
 
+.text-viewer__file-loader__input:disabled + .text-viewer__file-loader__label {
+    pointer-events: none;
+}
+
 .text-viewer__file-loader__label {
     color: var(--black);
     cursor: pointer;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
         color: var(--blue);
         text-decoration: underline;
         text-decoration-thickness: 2px;
+    }
+
+    &:disabled {
+        pointer-events: none;
     }
 }
 
