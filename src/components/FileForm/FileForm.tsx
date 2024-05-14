@@ -1,85 +1,77 @@
-import { ChangeEvent, DragEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import {
+    useMarkup,
+    useMarkupDispatch,
+} from "../../contexts/MarkupProvider/MarkupHooks";
+import FileDropArea from "../FileDropArea/FileDropArea";
 
 import "./FileForm.scss";
+import { useNavigate } from "react-router-dom";
 
-export interface FileFormProps {
-    submitText: string;
-    onFile?: (file: File) => void;
-}
+export interface FileFormProps {}
 
-export default function FileForm({
-    submitText,
-    onFile = () => {},
-}: FileFormProps) {
+export default function FileForm() {
     const [file, setFile] = useState<File | null>(null);
+    const { loading, textClass } = useMarkup();
+    const markupDispatch = useMarkupDispatch();
+    const navigate = useNavigate();
+    const loadingRef = useRef(false);
+
+    useEffect(() => {
+        if (loadingRef.current && !loading && textClass) {
+            navigate("/markup");
+        }
+        loadingRef.current = loading;
+    }, [loading, navigate, textClass]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!file) {
-            // markupDispatch({ type: "ERROR", payload: "Select a file" });
             toast.error("Выберите файл");
             return;
         }
-        onFile(file);
+
+        markupDispatch({ type: "FETCH_FILE", payload: file });
     }
 
-    function handleFileSelection(e: ChangeEvent<HTMLInputElement>) {
+    function handleFileLoad(e: ChangeEvent<HTMLInputElement>) {
         setFile(e.currentTarget.files!.item(0));
-    }
-
-    function handleFileDrop(e: DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.remove("file-form__file-area_file-over");
-        if (e.dataTransfer.items[0].kind != "file") {
-            toast.error("Выберите файл");
-            return;
-        }
-        if (e.dataTransfer.items.length > 1) {
-            toast.error("Выберите только один файл");
-            return;
-        }
-        setFile(e.dataTransfer.items[0].getAsFile());
-    }
-
-    function handleFileDragOver(e: DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.add("file-form__file-area_file-over");
-    }
-
-    function handleFileDragLeave(e: DragEvent<HTMLDivElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.remove("file-form__file-area_file-over");
     }
 
     return (
         <>
             <form className="file-form" onSubmit={handleSubmit}>
-                <div
+                <FileDropArea
                     className="file-form__file-area"
-                    onDrop={handleFileDrop}
-                    onDragOver={handleFileDragOver}
-                    onDragLeave={handleFileDragLeave}
+                    onFile={(file) => setFile(file)}
                 >
+                    <input
+                        type="file"
+                        name="file"
+                        className="file-form__file-area__input"
+                        id="file-form__file"
+                        onChange={handleFileLoad}
+                        disabled={loading}
+                        hidden
+                        accept=".doc,.docx,.txt"
+                    />
                     <label
                         className="file-form__file-area__label"
                         htmlFor="file-form__file"
                     >
                         {file ? file.name : "Выберите файл или перетащите его"}
                     </label>
-                    <input
-                        type="file"
-                        name="file"
-                        id="file-form__file"
-                        onChange={handleFileSelection}
-                        hidden
-                    />
-                </div>
+                    <span className="file-form__file-area__accept-files">
+                        Разрешенные форматы .doc, .docx, .txt
+                    </span>
+                </FileDropArea>
                 <button
                     className="file-form__submit submit-button"
                     type="submit"
+                    disabled={loading}
                 >
-                    {submitText}
+                    Получить разметку
                 </button>
             </form>
         </>

@@ -1,102 +1,86 @@
-import { FormEvent, DragEvent, ChangeEvent } from "react";
-import "./TextViewer.scss";
-import { toast } from "react-toastify";
+import { FormEvent, ChangeEvent, useEffect, useState } from "react";
 import {
     useMarkup,
     useMarkupDispatch,
 } from "../../contexts/MarkupProvider/MarkupHooks";
+import FileDropArea from "../FileDropArea/FileDropArea";
 
-export interface TextViewerProps {
-    onText?: (text: string) => void;
-    submitText: string;
-}
+import "./TextViewer.scss";
 
-export default function TextViewer({
-    onText = () => {},
-    submitText,
-}: TextViewerProps) {
-    const markup = useMarkup();
+export interface TextViewerProps {}
+
+export default function TextViewer() {
+    const { text, loading } = useMarkup();
     const markupDispatch = useMarkupDispatch();
+    const [file, setFile] = useState<File | null>(null);
+
+    useEffect(() => {
+        if (!file) return;
+        markupDispatch({ type: "FETCH_FILE", payload: file });
+    }, [file, markupDispatch]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const textArea = e.currentTarget.elements.namedItem(
             "text"
         ) as HTMLTextAreaElement;
-        if (textArea.value) onText(textArea.value);
+        if (!textArea.value) return;
+
+        markupDispatch({ type: "FETCH_TEXT", payload: null });
     }
 
     function hadleFileLoad(e: ChangeEvent<HTMLInputElement>) {
-        if (!e.currentTarget.files?.item(0)) return;
-
-        const reader = new FileReader();
-        reader.readAsText(e.currentTarget.files.item(0)!);
-        reader.onload = () => {
-            markupDispatch({ type: "TEXT", payload: reader.result as string });
-        };
-    }
-
-    function handleFileDrop(e: DragEvent<HTMLTextAreaElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.remove("file-form__file-area_file-over");
-        if (e.dataTransfer.items[0].kind != "file") {
-            toast.error("Выберите файл");
-            return;
-        }
-        if (e.dataTransfer.items.length > 1) {
-            toast.error("Выберите только один файл");
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.readAsText(e.dataTransfer.items[0].getAsFile()!);
-        reader.onload = () => {
-            markupDispatch({ type: "TEXT", payload: reader.result as string });
-        };
-    }
-
-    function handleFileDragOver(e: DragEvent<HTMLTextAreaElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.add("file-form__file-area_file-over");
-    }
-
-    function handleFileDragLeave(e: DragEvent<HTMLTextAreaElement>) {
-        e.preventDefault();
-        e.currentTarget.classList.remove("file-form__file-area_file-over");
+        setFile(e.currentTarget.files!.item(0));
     }
 
     return (
         <form className="text-viewer" onSubmit={handleSubmit}>
-            <textarea
-                className="text-viewer__textarea"
-                name="text"
-                id="text-viewer_text"
-                placeholder="Вставьте текст..."
-                value={markup.text || ""}
-                onChange={(e) =>
-                    markupDispatch({ type: "TEXT", payload: e.target.value })
-                }
-                onDrop={handleFileDrop}
-                onDragOver={handleFileDragOver}
-                onDragLeave={handleFileDragLeave}
-            ></textarea>
+            <FileDropArea
+                className="text-viewer__file-area"
+                onFile={(file) => setFile(file)}
+            >
+                <textarea
+                    className="text-viewer__file-area__textarea scrollable"
+                    name="text"
+                    id="text-viewer_text"
+                    placeholder="Вставьте текст..."
+                    value={text || ""}
+                    onChange={(e) =>
+                        markupDispatch({
+                            type: "TEXT",
+                            payload: e.target.value,
+                        })
+                    }
+                    disabled={loading}
+                ></textarea>
+            </FileDropArea>
             <div className="text-viewer__file-loader">
+                <input
+                    type="file"
+                    name="file"
+                    className="text-viewer__file-loader__input"
+                    id="text-viewer__file"
+                    onChange={hadleFileLoad}
+                    hidden
+                    disabled={loading}
+                    accept=".doc,.docx,.txt"
+                />
                 <label
                     className="text-viewer__file-loader__label"
                     htmlFor="text-viewer__file"
                 >
                     Загрузить файл
                 </label>
-                <input
-                    type="file"
-                    name="file"
-                    id="text-viewer__file"
-                    onChange={hadleFileLoad}
-                    hidden
-                />
+                <span className="text-viewer__file-area__accept-files">
+                    Разрешенные форматы .doc, .docx, .txt
+                </span>
             </div>
-            <button className="text-viewer__submit submit-button" type="submit">
-                {submitText}
+            <button
+                className="text-viewer__submit submit-button"
+                type="submit"
+                disabled={loading}
+            >
+                Получить разметку
             </button>
         </form>
     );

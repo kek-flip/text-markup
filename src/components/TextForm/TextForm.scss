@@ -10,8 +10,13 @@
 
 .text-form__textarea {
     align-self: stretch;
+
     min-height: 16em;
-    resize: none;
+    @media screen and (max-width: 461px) {
+        min-height: 10em;
+    }
+
+    resize: vertical;
 
     font-size: 1rem;
 
