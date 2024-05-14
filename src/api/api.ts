@@ -34,6 +34,7 @@ const DEFAULT_FAILURE_CODES_MAPPER: StatusCodeMapper = {
     404: "Не найдено",
     413: "Слишком большой текст",
     500: "Ошибка сервера",
+    503: "Слишком много запросов, попробуйте позже",
 };
 
 const URL = import.meta.env.VITE_API_URL;
