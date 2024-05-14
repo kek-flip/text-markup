@@ -47,6 +47,7 @@ export default function FileForm() {
                         onChange={handleFileLoad}
                         disabled={loading}
                         hidden
+                        accept=".doc,.docx,.txt"
                     />
                     <label
                         className="file-form__file-area__label"
@@ -54,6 +55,9 @@ export default function FileForm() {
                     >
                         {file ? file.name : "Выберите файл или перетащите его"}
                     </label>
+                    <span className="file-form__file-area__accept-files">
+                        Разрешенные форматы .doc, .docx, .txt
+                    </span>
                 </FileDropArea>
                 <button
                     className="file-form__submit submit-button"

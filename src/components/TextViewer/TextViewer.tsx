@@ -63,6 +63,7 @@ export default function TextViewer() {
                     onChange={hadleFileLoad}
                     hidden
                     disabled={loading}
+                    accept=".doc,.docx,.txt"
                 />
                 <label
                     className="text-viewer__file-loader__label"
@@ -70,6 +71,9 @@ export default function TextViewer() {
                 >
                     Загрузить файл
                 </label>
+                <span className="text-viewer__file-area__accept-files">
+                    Разрешенные форматы .doc, .docx, .txt
+                </span>
             </div>
             <button
                 className="text-viewer__submit submit-button"

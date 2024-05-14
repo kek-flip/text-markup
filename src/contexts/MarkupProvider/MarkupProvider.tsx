@@ -119,6 +119,13 @@ function handleText(
 
     if (!state.text) return action;
 
+    if (state.text.length > 5000) {
+        toast.error(
+            "Слишком большой текст. Максимальная длина - 5000 символов"
+        );
+        return action;
+    }
+
     const textPromise = Api.markupText
         .fetch(JSON.stringify({ text: state.text }))
         .then((response) => {
@@ -158,6 +165,7 @@ function handleFile(
     formData.append("file", file);
     const responsePromise = Api.markupFile.fetch(formData);
 
+    // TODO: Заменить на получение текста по обратной связи
     const textPromise = new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsText(file);
@@ -217,7 +225,7 @@ export default function MarkupProvider({ children }: MarkupProviderProps) {
             labels: [],
             loading: false,
         },
-        [handleFetch, handleText, handleFile]
+        [handleText, handleFile, handleFetch]
     );
 
     return (
