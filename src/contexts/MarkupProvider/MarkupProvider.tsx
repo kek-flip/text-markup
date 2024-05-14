@@ -37,7 +37,11 @@ type MarkupAction =
           payload: null;
       }
     | {
-          type: "FETCH_END";
+          type: "FETCH_SUCCESS";
+          payload: null;
+      }
+    | {
+          type: "FETCH_FAIL";
           payload: null;
       };
 
@@ -81,9 +85,17 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 ...state,
                 loading: true,
             };
-        case "FETCH_END":
+        case "FETCH_SUCCESS":
             return {
                 ...state,
+                loading: false,
+            };
+        case "FETCH_FAIL":
+            return {
+                ...state,
+                tags: [],
+                labels: [],
+                textClass: null,
                 loading: false,
             };
         default:
@@ -137,14 +149,15 @@ function handleText(
                     labels: response.labels,
                 },
             });
-        })
-        .finally(() => dispatch({ type: "FETCH_END", payload: null }));
+            dispatch({ type: "FETCH_SUCCESS", payload: null });
+        });
 
     toast.promise<void, RequestError>(textPromise, {
         pending: "Обработка текста",
         success: "Успешно",
         error: {
             render({ data }) {
+                dispatch({ type: "FETCH_FAIL", payload: null });
                 return data.message;
             },
         },
@@ -177,8 +190,8 @@ function handleFile(
         };
     });
 
-    const markupPromise = Promise.all([responsePromise, textPromise])
-        .then(([response, text]) => {
+    const markupPromise = Promise.all([responsePromise, textPromise]).then(
+        ([response, text]) => {
             dispatch({
                 type: "TEXT",
                 payload: text,
@@ -191,14 +204,16 @@ function handleFile(
                     labels: response.labels,
                 },
             });
-        })
-        .finally(() => dispatch({ type: "FETCH_END", payload: null }));
+            dispatch({ type: "FETCH_SUCCESS", payload: null });
+        }
+    );
 
     toast.promise(markupPromise, {
         pending: "Обработка текста",
         success: "Успешно",
         error: {
             render({ data }) {
+                dispatch({ type: "FETCH_FAIL", payload: null });
                 if (typeof data == "string") {
                     return data;
                 } else if (data instanceof RequestError) {

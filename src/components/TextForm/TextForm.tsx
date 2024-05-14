@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 
 import "./TextForm.scss";
 import {
@@ -10,9 +10,17 @@ import { useNavigate } from "react-router-dom";
 export interface TextFormProps {}
 
 export default function TextForm() {
-    const { text, loading } = useMarkup();
+    const { text, loading, textClass } = useMarkup();
     const markupDispatch = useMarkupDispatch();
     const navigate = useNavigate();
+    const loadingRef = useRef(false);
+
+    useEffect(() => {
+        if (loadingRef.current && !loading && textClass) {
+            navigate("/markup");
+        }
+        loadingRef.current = loading;
+    }, [loading, navigate, textClass]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -22,7 +30,6 @@ export default function TextForm() {
         if (!textArea.value) return;
 
         markupDispatch({ type: "FETCH_TEXT", payload: null });
-        navigate("/markup");
     }
 
     return (

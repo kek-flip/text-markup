@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import {
     useMarkup,
@@ -13,9 +13,17 @@ export interface FileFormProps {}
 
 export default function FileForm() {
     const [file, setFile] = useState<File | null>(null);
-    const { loading } = useMarkup();
+    const { loading, textClass } = useMarkup();
     const markupDispatch = useMarkupDispatch();
     const navigate = useNavigate();
+    const loadingRef = useRef(false);
+
+    useEffect(() => {
+        if (loadingRef.current && !loading && textClass) {
+            navigate("/markup");
+        }
+        loadingRef.current = loading;
+    }, [loading, navigate, textClass]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -25,7 +33,6 @@ export default function FileForm() {
         }
 
         markupDispatch({ type: "FETCH_FILE", payload: file });
-        navigate("/markup");
     }
 
     function handleFileLoad(e: ChangeEvent<HTMLInputElement>) {
