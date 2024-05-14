@@ -1,30 +1,18 @@
 import { FormEvent } from "react";
 
 import "./TextForm.scss";
-import { toast } from "react-toastify";
-import Api, { RequestError } from "../../api/api";
-import { useMarkupDispatch } from "../../contexts/MarkupProvider/MarkupHooks";
+import {
+    useMarkup,
+    useMarkupDispatch,
+} from "../../contexts/MarkupProvider/MarkupHooks";
 import { useNavigate } from "react-router-dom";
 
 export interface TextFormProps {}
 
 export default function TextForm() {
+    const { text } = useMarkup();
     const markupDispatch = useMarkupDispatch();
     const navigate = useNavigate();
-
-    async function handleText(text: string) {
-        const response = await Api.markupText.fetch(JSON.stringify({ text }));
-        markupDispatch({
-            type: "TEXT_WITH_MARKUP",
-            payload: {
-                text,
-                textClass: response.class,
-                tags: response.tags,
-                labels: response.labels,
-            },
-        });
-        navigate("/markup");
-    }
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -33,15 +21,8 @@ export default function TextForm() {
         ) as HTMLTextAreaElement;
         if (!textArea.value) return;
 
-        toast.promise<void, RequestError>(handleText(textArea.value), {
-            pending: "Обработка текста",
-            success: "Успешно",
-            error: {
-                render({ data }) {
-                    return data.message;
-                },
-            },
-        });
+        markupDispatch({ type: "FETCH_TEXT", payload: null });
+        navigate("/markup");
     }
 
     return (
@@ -51,6 +32,13 @@ export default function TextForm() {
                 name="text"
                 id="text-form_text"
                 placeholder="Вставьте текст..."
+                value={text || ""}
+                onChange={(e) =>
+                    markupDispatch({
+                        type: "TEXT",
+                        payload: e.target.value,
+                    })
+                }
             ></textarea>
             <button className="text-form__submit submit-button" type="submit">
                 Получить разметку
