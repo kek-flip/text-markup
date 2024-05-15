@@ -140,6 +140,10 @@ function handleText(
         toast.error(
             "Слишком большой текст. Максимальная длина - 5000 символов"
         );
+        dispatch({
+            type: "FETCH_FAIL",
+            payload: null,
+        });
         return action;
     }
 
@@ -248,7 +252,7 @@ export default function MarkupProvider({ children }: MarkupProviderProps) {
             keywords: [],
             loading: false,
         },
-        [handleText, handleFile, handleFetch]
+        [handleFetch, handleText, handleFile]
     );
 
     return (
