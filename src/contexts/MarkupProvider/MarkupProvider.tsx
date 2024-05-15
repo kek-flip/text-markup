@@ -7,6 +7,7 @@ interface Markup {
     text: string | null;
     tags: string[];
     labels: string[];
+    keywords: string[];
     textClass: string | null;
     loading: boolean;
 }
@@ -51,6 +52,7 @@ type TextMarkupPayload = {
     textClass: string | null;
     tags: string[];
     labels: string[];
+    keywords: string[];
 };
 
 type TextWithMarkupPayload = { text: string } & TextMarkupPayload;
@@ -66,18 +68,20 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
         case "TEXT_MARKUP":
             return {
                 ...state,
-                tags: (payload as TextMarkupPayload).tags,
-                labels: (payload as TextMarkupPayload).labels,
-                textClass: (payload as TextMarkupPayload).textClass,
+                tags: payload.tags,
+                labels: payload.labels,
+                textClass: payload.textClass,
+                keywords: payload.keywords,
                 loading: false,
             };
         case "TEXT_WITH_MARKUP":
             return {
                 ...state,
-                text: (payload as TextWithMarkupPayload).text,
-                tags: (payload as TextWithMarkupPayload).tags,
-                labels: (payload as TextWithMarkupPayload).labels,
-                textClass: (payload as TextWithMarkupPayload).textClass,
+                text: payload.text,
+                tags: payload.tags,
+                labels: payload.labels,
+                textClass: payload.textClass,
+                keywords: payload.keywords,
                 loading: false,
             };
         case "FETCH":
@@ -95,6 +99,7 @@ function markupReducer(state: Markup, action: MarkupAction): Markup {
                 ...state,
                 tags: [],
                 labels: [],
+                keywords: [],
                 textClass: null,
                 loading: false,
             };
@@ -147,6 +152,7 @@ function handleText(
                     textClass: response.class,
                     tags: response.tags,
                     labels: response.labels,
+                    keywords: response.keywords,
                 },
             });
             dispatch({ type: "FETCH_SUCCESS", payload: null });
@@ -202,6 +208,7 @@ function handleFile(
                     textClass: response.class,
                     tags: response.tags,
                     labels: response.labels,
+                    keywords: response.keywords,
                 },
             });
             dispatch({ type: "FETCH_SUCCESS", payload: null });
@@ -238,6 +245,7 @@ export default function MarkupProvider({ children }: MarkupProviderProps) {
             textClass: null,
             tags: [],
             labels: [],
+            keywords: [],
             loading: false,
         },
         [handleText, handleFile, handleFetch]

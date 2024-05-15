@@ -3,7 +3,7 @@ import "./MarkupViewer.scss";
 export interface MarkupViewerProps {}
 
 export default function MarkupViewer() {
-    const { tags, labels, textClass } = useMarkup();
+    const { tags, labels, textClass, keywords } = useMarkup();
 
     const items = [];
     for (let i = 0; i < tags.length; i++) {
@@ -22,6 +22,18 @@ export default function MarkupViewer() {
                 <span className="markup-viewer__text-class__class-value">
                     {textClass}
                 </span>
+            </div>
+            <div className="markup-viewer__keywords">
+                <h3 className="markup-viewer__keywords__title">
+                    Ключевые слова:
+                </h3>
+                <div className="markup-viewer__keywords__words">
+                    {keywords.map((keyword) => (
+                        <span className="markup-viewer__keywords__words__word">
+                            {keyword}
+                        </span>
+                    ))}
+                </div>
             </div>
             <div className="markup-viewer__tags-labels">
                 <h3 className="markup-viewer__tags-labels__tags-title">Теги</h3>
