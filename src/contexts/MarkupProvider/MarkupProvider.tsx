@@ -136,17 +136,6 @@ function handleText(
 
     if (!state.text) return action;
 
-    if (state.text.length > 5000) {
-        toast.error(
-            "Слишком большой текст. Максимальная длина - 5000 символов"
-        );
-        dispatch({
-            type: "FETCH_FAIL",
-            payload: null,
-        });
-        return action;
-    }
-
     const textPromise = Api.markupText
         .fetch(JSON.stringify({ text: state.text }))
         .then((response) => {
