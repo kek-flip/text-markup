@@ -87,6 +87,7 @@ class Route<T = unknown> {
 interface TextMarkup {
     labels: string[];
     tags: string[];
+    keywords: string[];
     class: string;
 }
 
