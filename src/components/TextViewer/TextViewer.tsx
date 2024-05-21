@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent, useEffect, useState, useRef } from "react";
+import { FormEvent, ChangeEvent, useEffect, useState } from "react";
 import {
     useMarkup,
     useMarkupDispatch,
@@ -10,30 +10,9 @@ import "./TextViewer.scss";
 export interface TextViewerProps {}
 
 export default function TextViewer() {
-    const { text, loading, keywords } = useMarkup();
+    const { text, loading } = useMarkup();
     const markupDispatch = useMarkupDispatch();
     const [file, setFile] = useState<File | null>(null);
-    const keywordsRef = useRef<HTMLTextAreaElement>(null);
-
-    useEffect(() => {
-        if (keywords.length == 0 || !keywordsRef.current) return;
-
-        const keywordsRagnes: Range[] = [];
-        const keywordsRegExp = new RegExp(keywords.join("|"), "g");
-        let match: RegExpExecArray | null;
-        while ((match = keywordsRegExp.exec(text || "")) != null) {
-            const range = new Range();
-            range.setStart(keywordsRef.current.firstChild!, match.index);
-            range.setEnd(
-                keywordsRef.current.firstChild!,
-                keywordsRegExp.lastIndex
-            );
-            keywordsRagnes.push(range);
-        }
-
-        const keywordsHighlight = new Highlight(...keywordsRagnes);
-        CSS.highlights.set("keywords", keywordsHighlight);
-    }, [keywords, text]);
 
     useEffect(() => {
         if (!file) return;
@@ -73,7 +52,6 @@ export default function TextViewer() {
                         })
                     }
                     disabled={loading}
-                    ref={keywordsRef}
                 ></textarea>
             </FileDropArea>
             <div className="text-viewer__file-loader">
