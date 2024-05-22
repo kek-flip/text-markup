@@ -177,38 +177,24 @@ function handleFile(
     formData.append("file", file);
     const responsePromise = Api.markupFile.fetch(formData);
 
-    // TODO: Заменить на получение текста по обратной связи
-    const textPromise = new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => {
-            resolve(reader.result as string);
-        };
-        reader.onerror = () => {
-            reject("Не удалось прочитать файл");
-        };
+    responsePromise.then((response) => {
+        dispatch({
+            type: "TEXT",
+            payload: response.text,
+        });
+        dispatch({
+            type: "TEXT_MARKUP",
+            payload: {
+                textClass: response.class,
+                tags: response.tags,
+                labels: response.labels,
+                keywords: response.keywords,
+            },
+        });
+        dispatch({ type: "FETCH_SUCCESS", payload: null });
     });
 
-    const markupPromise = Promise.all([responsePromise, textPromise]).then(
-        ([response, text]) => {
-            dispatch({
-                type: "TEXT",
-                payload: text,
-            });
-            dispatch({
-                type: "TEXT_MARKUP",
-                payload: {
-                    textClass: response.class,
-                    tags: response.tags,
-                    labels: response.labels,
-                    keywords: response.keywords,
-                },
-            });
-            dispatch({ type: "FETCH_SUCCESS", payload: null });
-        }
-    );
-
-    toast.promise(markupPromise, {
+    toast.promise(responsePromise, {
         pending: "Обработка текста",
         success: "Успешно",
         error: {

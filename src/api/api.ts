@@ -91,6 +91,8 @@ interface TextMarkup {
     class: string;
 }
 
+type TextMarkupWithText = TextMarkup & { text: string };
+
 const Api = {
     markupText: new Route<TextMarkup>(HTTPMethod.POST, "/markup", {
         headers: {
@@ -100,7 +102,7 @@ const Api = {
             204: "Невозможно найти теги в тексте",
         },
     }),
-    markupFile: new Route<TextMarkup>(HTTPMethod.POST, "/markup-file", {
+    markupFile: new Route<TextMarkupWithText>(HTTPMethod.POST, "/markup-file", {
         failureCodesMapper: {
             204: "Невозможно найти теги в тексте",
             400: "Невалидный формат файла",
