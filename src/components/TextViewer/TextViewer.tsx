@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent, useEffect, useState } from "react";
+import { FormEvent, ChangeEvent } from "react";
 import {
     useMarkup,
     useMarkupDispatch,
@@ -12,12 +12,6 @@ export interface TextViewerProps {}
 export default function TextViewer() {
     const { text, loading } = useMarkup();
     const markupDispatch = useMarkupDispatch();
-    const [file, setFile] = useState<File | null>(null);
-
-    useEffect(() => {
-        if (!file) return;
-        markupDispatch({ type: "FETCH_FILE", payload: file });
-    }, [file, markupDispatch]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -29,15 +23,20 @@ export default function TextViewer() {
         markupDispatch({ type: "FETCH_TEXT", payload: null });
     }
 
+    function dispatchFile(file: File) {
+        markupDispatch({ type: "FETCH_FILE", payload: file });
+    }
+
     function hadleFileLoad(e: ChangeEvent<HTMLInputElement>) {
-        setFile(e.currentTarget.files!.item(0));
+        const file = e.currentTarget.files?.item(0);
+        if (file) dispatchFile(file);
     }
 
     return (
         <form className="text-viewer" onSubmit={handleSubmit}>
             <FileDropArea
                 className="text-viewer__file-area"
-                onFile={(file) => setFile(file)}
+                onFile={(file) => dispatchFile(file)}
             >
                 <textarea
                     className="text-viewer__file-area__textarea scrollable"
